@@ -1,4 +1,6 @@
 # repo-iter2-10-18
+## Group Members
++ Anthony Dierssen-Morice: diers040
 
 ## Pre-requisites
   * [Git](https://git-scm.com/)
