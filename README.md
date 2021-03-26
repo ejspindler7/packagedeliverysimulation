@@ -1,7 +1,10 @@
 # repo-iter2-10-18
 
 ## Group Members
-Imran Ahmed : ahmed640
++ Imran Ahmed : ahmed640
++ Anthony Dierssen-Morice: diers040
++ spind038
++ Tia Hannes: hanne123
 
 ## Pre-requisites
   * [Git](https://git-scm.com/)
@@ -27,7 +30,7 @@ Imran Ahmed : ahmed640
     #Usage bin/run-env.sh <port - optional(default 8081)>
     bin/run-env.sh
     ```
-    
+
 3. Build project web server (inside docker image) NOTE: You won't be able to `cd` here yet because the project directory does not exist. If you were able to launch the above commands you should now be inside the docker image. You can exit it with CTRL+D now.
 
     ```bash
@@ -35,7 +38,7 @@ Imran Ahmed : ahmed640
     cd /home/user/repo/project
     make
     ```
-    
+
 4. Run web server (inside docker image)
 
     ```bash
@@ -43,7 +46,7 @@ Imran Ahmed : ahmed640
     cd /home/user/repo/project
     ./bin/run.sh
     ```
-    
+
 5. Open up Firefox and browse to http://127.0.0.1:8081/
 
 
@@ -63,7 +66,7 @@ Imran Ahmed : ahmed640
     make -j
     ./bin/run.sh
     ```
-  
+
 5. Open up Firefox and browse to http://127.0.0.1:8081/
 
 ## Getting Started with VOLE-3D or VOLE
@@ -77,13 +80,12 @@ Imran Ahmed : ahmed640
     cd project
     make
     ```
-    
+
  2. Run project
 
     ```bash
     # MUST be within project/ directory
     ./bin/run.sh
     ```
-    
+
  5. Open up Firefox and browse to http://127.0.0.1:8081/
->>>>>>> 639b1ab1c6b11e6f8e780ccd7d89173b905d638b
