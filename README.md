@@ -1,5 +1,6 @@
 # repo-iter2-10-18
 ## Group Members
+Anthony Dierssen-Morice: diers040
 Tia Hannes: hanne123
 
 ## Pre-requisites
