@@ -3,6 +3,8 @@
 ## Group Members
 + Anthony Dierssen-Morice: diers040
 + spind038
++ Tia Hannes: hanne123
+
 
 ## Pre-requisites
   * [Git](https://git-scm.com/)
