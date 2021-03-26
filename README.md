@@ -1,7 +1,10 @@
 # repo-iter2-10-18
+
 ## Group Members
-Anthony Dierssen-Morice: diers040
-Tia Hannes: hanne123
++ Anthony Dierssen-Morice: diers040
++ spind038
++ Tia Hannes: hanne123
+
 
 ## Pre-requisites
   * [Git](https://git-scm.com/)
@@ -86,4 +89,3 @@ Tia Hannes: hanne123
     ```
 
  5. Open up Firefox and browse to http://127.0.0.1:8081/
->>>>>>> 639b1ab1c6b11e6f8e780ccd7d89173b905d638b
