@@ -1,5 +1,8 @@
 # repo-iter2-10-18
-# spind038
+
+## Group Members
++ Anthony Dierssen-Morice: diers040
++ spind038
 
 ## Pre-requisites
   * [Git](https://git-scm.com/)
@@ -84,4 +87,3 @@
     ```
 
  5. Open up Firefox and browse to http://127.0.0.1:8081/
->>>>>>> 639b1ab1c6b11e6f8e780ccd7d89173b905d638b
