@@ -1,8 +1,17 @@
 #include "delivery_simulation.h"
+#include "drone_factory.h"
+#include "customer_factory.h"
+#include "robot_factory.h"
+#include "package_factory.h"
 
 namespace csci3081 {
 
-  DeliverySimulation::DeliverySimulation() {}
+  DeliverySimulation::DeliverySimulation() {
+    composite_factory_.AddFactory(new DroneFactory());
+    composite_factory_.AddFactory(new RobotFactory());
+    composite_factory_.AddFactory(new PackageFactory());
+    composite_factory_.AddFactory(new CustomerFactory());
+  } // DeliverySimulation()
 
   DeliverySimulation::~DeliverySimulation() {
     for (auto entity : entities_) {
@@ -26,23 +35,41 @@ namespace csci3081 {
     graph_ = graph;
   } // SetGraph(IGraph*)
 
+  Courier* ClosestAvailCourier(const std::vector<IEntity*> entities,
+                               const Package* package) {
+      Courier* closest_courier = nullptr;
+      float distance = -1.0;
+      for (auto entity : entities) {
+        Courier* temp_courier = dynamic_cast<Courier*>(entity);
+        if (temp_courier && temp_courier->IsAvailable()) {
+            Vector3D package_pos(package->GetPosition());
+            Vector3D courier_pos(temp_courier->GetPosition());
+            float distance_to_pkg = (package_pos - courier_pos).Magnitude();
+            if (!closest_courier || distance_to_pkg < distance) {
+              closest_courier = temp_courier;
+              distance = distance_to_pkg;
+            } // if !closest_courier
+        } // if temp_courier
+      } // for
+      return closest_courier;
+  } // FindClosestAvailableCourier(Package*)
+
   void DeliverySimulation::ScheduleDelivery(IEntity* package, IEntity* dest) {
     Package* package_ptr = dynamic_cast<Package*>(package); 
     if (package_ptr) {
       package_ptr->SetDestination(dest->GetPosition());
-      // find a drone to deliver package
-      for (auto entity : entities_) {
-        Drone* drone = dynamic_cast<Drone*>(entity);
-        if (drone && drone->IsAvailable()) {
-          drone->SetGraph(graph_);
-          drone->SetPackage(package_ptr);
-          return;
-        } // if
-      } // for
-      // no drone available to deliver pacakage at the moment
-      package_queue_.push(package_ptr); 
+      // find a courier to deliver package
+      Courier* courier = ClosestAvailCourier(entities_, package_ptr);
+      if (courier) { 
+        courier->SetGraph(graph_);
+        courier->SetPackage(package_ptr);
+      } else {
+        // no courier available to deliver package at the moment
+        package_queue_.push(package_ptr); 
+      } // else
     } else { 
-      std::cout << "Failed to schedule delivery: invalid package pointer" << std::endl;
+      std::cout << "Failed to schedule delivery: invalid package pointer" 
+                << std::endl;
     } // else
   } // ScheduleDelivery(IEntity*, IEntity*)
 
@@ -55,19 +82,22 @@ namespace csci3081 {
   } // GetEntities()
 
   void DeliverySimulation::Update(float dt) {
-    for (auto entity : entities_) {
-      Drone* drone = dynamic_cast<Drone*>(entity);
-      if (drone) {
-        if (!package_queue_.empty() && drone->IsAvailable()) {
-          // assign drone to scheduled package
-          drone->SetPackage(package_queue_.front());
-          package_queue_.pop();
-        } // if
-        drone->Update(dt);
+    if (!package_queue_.empty()) { // assign closest available courier to package
+      Courier* free_courier = ClosestAvailCourier(entities_,
+                                                  package_queue_.front());
+      if (free_courier) {
+        free_courier->SetGraph(graph_);
+        free_courier->SetPackage(package_queue_.front());
+        package_queue_.pop();
+      } // if courier
+    } // if !package_queue_.empty()
+    for (auto entity : entities_) { // update each courier
+      Courier* courier = dynamic_cast<Courier*>(entity);
+      if (courier) {
+        courier->Update(dt);
       } // if
     } // for
   } // Update(float);
-
 
   // DO NOT MODIFY THE FOLLOWING UNLESS YOU REALLY KNOW WHAT YOU ARE DOING
   void DeliverySimulation::RunScript(const picojson::array& script, IEntitySystem* system) const {

@@ -8,7 +8,7 @@
  * Includes
  ******************************************************************************/
 #include "composite_factory.h"
-#include "drone.h"
+#include "courier.h"
 #include "package.h"
 #include <EntityProject/facade/delivery_system.h>
 #include <vector>
@@ -31,7 +31,7 @@ namespace csci3081 {
   class DeliverySimulation : public IDeliverySystem {
    public:
     /**
-     * @brief Constructor: this can do any setup your system necessitates.
+     * @brief Constructor: adds entity factories to composite factory 
      */
     DeliverySimulation();
 
