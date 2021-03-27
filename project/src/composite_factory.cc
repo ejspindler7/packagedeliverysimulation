@@ -5,11 +5,7 @@
 
 namespace csci3081 {
 
-  CompositeFactory::CompositeFactory() { 
-    this->AddFactory(new DroneFactory());
-    this->AddFactory(new PackageFactory());
-    this->AddFactory(new CustomerFactory());
-  } // CompositeFactory()
+  CompositeFactory::CompositeFactory() { }
 
   CompositeFactory::~CompositeFactory() { 
     for (auto factory : component_factories_) {
