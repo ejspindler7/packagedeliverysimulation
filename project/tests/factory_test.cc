@@ -3,6 +3,8 @@
 #include "../include/delivery_simulation.h"
 #include <EntityProject/entity.h>
 #include "json_helper.h"
+#include "../include/drone_factory.h"
+#include "../include/composite_factory.h"
 
 
 #include <iostream>
@@ -28,6 +30,7 @@ class FactoryTest : public ::testing::Test {
 TEST_F(FactoryTest, DroneCreated) {
   picojson::object obj = JsonHelper::CreateJsonObject();
   JsonHelper::AddStringToJsonObject(obj, "type", "drone");
+  JsonHelper::AddStringToJsonObject(obj, "name", "drone");
   std::vector<float> position_to_add;
   position_to_add.push_back(498.292);
   position_to_add.push_back(253.883);
@@ -38,7 +41,13 @@ TEST_F(FactoryTest, DroneCreated) {
   direction_to_add.push_back(0);
   direction_to_add.push_back(0);
   JsonHelper::AddStdFloatVectorToJsonObject(obj, "direction", direction_to_add);
-  IEntity* entity = system->CreateEntity(obj);
+  JsonHelper::AddFloatToJsonObject(obj, "radius", 1.0);
+  JsonHelper::AddFloatToJsonObject(obj, "speed", 1.0);
+  /* IEntity* entity = system->CreateEntity(obj); */
+  CompositeFactory composite_factory;
+  composite_factory.AddFactory(new DroneFactory);
+  IEntity* entity = composite_factory.CreateEntity(obj);
+
 
   // Checks that the returned entity is not NULL
   ASSERT_NE(entity, nullptr) << "The entity created";
