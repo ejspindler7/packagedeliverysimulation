@@ -1,5 +1,9 @@
 #include "gtest/gtest.h"
 #include "../include/composite_factory.h"
+#include "drone_factory.h"
+#include "package_factory.h"
+#include "customer_factory.h"
+#include "robot_factory.h"
 
 namespace csci3081 {
 
@@ -228,6 +232,11 @@ namespace csci3081 {
    ******************************************************************************/
 
   TEST_F(CompositeFactoryTest, CreateEntityTests) {
+    c1.AddFactory(new DroneFactory());
+    c1.AddFactory(new RobotFactory());
+    c1.AddFactory(new PackageFactory());
+    c1.AddFactory(new CustomerFactory());
+
     IEntity* entity = c1.CreateEntity(details_1.obj);
     EXPECT_NE(entity, nullptr) << "Create entity drone error";
 

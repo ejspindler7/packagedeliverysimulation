@@ -317,17 +317,6 @@ namespace csci3081 {
     EXPECT_EQ(d3.GetPackage(), nullptr) 
       << "d3 - incorrect package initialization";
 
-    /* Check that use_smart_route gets set to expected value */
-    /* Note that use_smart_route is initialized to true when drone is created */
-    EXPECT_EQ(d1.UsingSmartRoute(), true) 
-      << "d1 - incorrect use_smart_route initialization";
-
-    EXPECT_EQ(d2.UsingSmartRoute(), true) 
-      << "d2 - incorrect use_smart_route initialization";
-    
-    EXPECT_EQ(d3.UsingSmartRoute(), true) 
-      << "d3 - incorrect use_smart_route initialization";
-
     /* Check that status gets set to expected value */
     /* Note that status is initialized to kReady when drone is created */
     EXPECT_EQ(d1.IsAvailable(), true) 
