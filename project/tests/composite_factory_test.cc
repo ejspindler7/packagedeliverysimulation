@@ -57,8 +57,6 @@ namespace csci3081 {
         JsonHelper::AddFloatToJsonObject(obj, "start", this->start);
         JsonHelper::AddFloatToJsonObject(obj, "duration", this->duration);
         JsonHelper::AddStdFloatVectorToJsonObject(obj, "offset", this->offset);
-        // print out the built PicoJson object
-        /* JsonHelper::PrintEntityDetails(obj); */
       } // PicoJsonObjectDrone()
   }; // PicoJsonObjectDrone
 
@@ -104,8 +102,6 @@ namespace csci3081 {
         JsonHelper::AddFloatToJsonObject(obj, "radius", this->radius);
         JsonHelper::AddStdFloatVectorToJsonObject(obj, "rotation", this->rotation);
         JsonHelper::AddStdFloatVectorToJsonObject(obj, "offset", this->offset);
-        // print out the built PicoJson object
-        /* JsonHelper::PrintEntityDetails(obj); */
       } // PicoJsonObjectPackage()
   }; // PicoJsonObjectPackage
 
@@ -147,8 +143,6 @@ namespace csci3081 {
         JsonHelper::AddStdFloatVectorToJsonObject(obj, "direction", this->direction);
         JsonHelper::AddFloatToJsonObject(obj, "radius", this->radius);
         JsonHelper::AddStdFloatVectorToJsonObject(obj, "rotation", this->rotation);
-        // print out the built PicoJson object
-        /* JsonHelper::PrintEntityDetails(obj); */
       } // PicoJsonObjectCustomer()
   }; // PicoJsonObjectCustomer
 

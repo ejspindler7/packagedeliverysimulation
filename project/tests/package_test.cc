@@ -46,8 +46,6 @@ namespace csci3081 {
         JsonHelper::AddFloatToJsonObject(obj, "radius", this->radius);
         JsonHelper::AddStdFloatVectorToJsonObject(obj, "rotation", this->rotation);
         JsonHelper::AddStdFloatVectorToJsonObject(obj, "offset", this->offset);
-        // print out the built PicoJson object
-        /* JsonHelper::PrintEntityDetails(obj); */
       } // PicoJsonObjectPackage()
   }; // PicoJsonObjectPackage
 
@@ -107,14 +105,7 @@ namespace csci3081 {
 
     EXPECT_EQ(picojson::value(p3.GetDetails()).serialize(), picojson::value(details_3.obj).serialize())
       << "p3 - incorrect details initializaiton";
-    
-    /* Check that id gets set to expected value */
-    /* Note that the three commented out EXPECT_EQ won't work since entities may */
-    /* have been created in other test files and the id of any entity is unique */
-    /* (uses a static class variable). */
-    /* EXPECT_EQ(p1.GetId(), 1) << "p1 - incorrect Id initialization"; */
-    /* EXPECT_EQ(p2.GetId(), 2) << "p2 - incorrect Id initialization"; */
-    /* EXPECT_EQ(p3.GetId(), 3) << "p3 - incorrect Id initialization"; */
+      
     EXPECT_NE(p1.GetId(), p2.GetId()) << "p1, p2 - incorrect Id initialization";
     EXPECT_NE(p2.GetId(), p3.GetId()) << "p2, p3 - incorrect Id initialization";
 

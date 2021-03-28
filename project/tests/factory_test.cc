@@ -43,7 +43,7 @@ TEST_F(FactoryTest, DroneCreated) {
   JsonHelper::AddStdFloatVectorToJsonObject(obj, "direction", direction_to_add);
   JsonHelper::AddFloatToJsonObject(obj, "radius", 1.0);
   JsonHelper::AddFloatToJsonObject(obj, "speed", 1.0);
-  /* IEntity* entity = system->CreateEntity(obj); */
+
   CompositeFactory composite_factory;
   composite_factory.AddFactory(new DroneFactory);
   IEntity* entity = composite_factory.CreateEntity(obj);
