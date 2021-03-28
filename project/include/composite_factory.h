@@ -35,9 +35,7 @@ namespace csci3081 {
   class CompositeFactory : public IEntityFactory {
     public:
       /**
-       * @brief Constructor.
-       *
-       * Adds drone, package, and customer factories by default.
+       * @brief defualt Constructor.
        */ 
       CompositeFactory();
 

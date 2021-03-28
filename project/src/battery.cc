@@ -5,17 +5,17 @@ namespace csci3081 {
   // initialize static class next_id_ variable
   int Battery::next_id_ = 0;
 
-  Battery::Battery(int max_charge) {
+  Battery::Battery(float max_charge) {
     id_ = ++next_id_;
     max_charge_ = max_charge;
     remaining_charge_ = max_charge; // starts fully charged
   } // Battery()
 
-  int Battery::GetCharge() {
+  float Battery::GetCharge() {
     return remaining_charge_;
   } // GetCharge()
 
-  void Battery::SetCharge(int charge) {
+  void Battery::SetCharge(float charge) {
     if (charge > max_charge_) {
       charge = max_charge_;
     } else if (charge < 0) {
@@ -28,7 +28,7 @@ namespace csci3081 {
     return remaining_charge_ <= 0;
   } // IsDead()
 
-  void Battery::Deplete(int amount) {
+  void Battery::Deplete(float amount) {
     // do nothing if battery is already dead
     if (!this->IsDead() && amount > 0) {
       remaining_charge_ -= amount;

@@ -25,26 +25,26 @@ namespace csci3081 {
        * @param max_charge An integer value that depletes through usage.
        *                   Default value of 10000.
        */ 
-      Battery(int max_charge = 10000);
+      Battery(float max_charge = 10000);
 
       /**
        * @brief Get the current charge of battery.
        *
        * @return Current battery charge. 
        */ 
-      int GetCharge();
+      float GetCharge();
 
       /**
        * @brief Set the current charge of battery.
        *
-       * @param charge An integer representing the desired value  current
+       * @param charge A float representing the desired value  current
        *               charge. Note should satisfy 0 <= charge <= max_charge_.
        *               Any values outside of this range will be be cast to the
        *               nearest safe value (i.e.  if charge > max_charge_ then
        *               charge is set to max_charge_).
        * @return void.
        */ 
-      void SetCharge(int charge);
+      void SetCharge(float charge);
 
       /**
        * @brief Checks to see if battery is fully depleted.
@@ -59,17 +59,17 @@ namespace csci3081 {
        * Has no effect if Battery is already dead or amount to deplete is
        * negative.
        *
-       * @param amount Should be a positive integer. Charge is depleted 
+       * @param amount Should be a positive float. Charge is depleted 
        *               by the amount specified.
        * @return void.
        */ 
-      void Deplete(int amount);
+      void Deplete(float amount);
 
     private:
       static int next_id_;
       int id_;
-      int max_charge_;
-      int remaining_charge_;
+      float max_charge_;
+      float remaining_charge_;
   };
 
 } // namespace csci3081

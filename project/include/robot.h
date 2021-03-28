@@ -1,9 +1,9 @@
 /**
- * @file drone.h
+ * @file robot.h
  */
 
-#ifndef DRONE_H_
-#define DRONE_H_
+#ifndef ROBOT_H_
+#define ROBOT_H_
 
 /*******************************************************************************
  * Includes
@@ -16,23 +16,23 @@ namespace csci3081 {
  * Class Definition
  ******************************************************************************/
   /**
-   * @brief Class for storing Drone information
+   * @brief Class for storing Robot information
    *
-   * Drone's are able to pickup and deliver packages to other
-   * entities by following either a smart route, beeline, or a parabolic path.
+   * Robot's are able to pickup and deliver packages to other
+   * entities by following a smart route 
    */
-  class Drone : public csci3081::Courier {
+  class Robot : public csci3081::Courier {
 
     public:
       /**
        * @brief Constructor.
        *  
-       * Creates the requested Drone entity. 
+       * Creates the requested Robot entity. 
        *
-       * @param details A picojson object containing requested drone details. 
+       * @param details A picojson object containing requested robot details. 
        */ 
-      Drone(const picojson::object& details);
+      Robot(const picojson::object& details);
   };
 
 } // namespace csci3081
-#endif // DRONE_H_
+#endif // ROBOT_H_
