@@ -1,49 +1,9 @@
 #include "gtest/gtest.h"
 #include "json_helper.h"
 #include "../include/customer.h"
+#include "picojson_test_objects.h"
 
 namespace csci3081 {
-  
-  class PicoJsonObjectCustomer {
-    public:
-      // attributes
-      std::string type;
-      std::string name;
-      std::string mesh;
-      std::vector<float> position;
-      std::vector<float> scale;
-      std::vector<float> direction;
-      float radius;
-      std::vector<float> rotation;
-      picojson::object obj;
-      // constructor
-      PicoJsonObjectCustomer(std::string type = "customer",
-                     std::string name = "customer",
-                     std::string mesh = "models/RobotExpressive.glb",
-                     std::vector<float> position = std::vector<float> {1.0, 2.0, 3.0},
-                     std::vector<float> scale = std::vector<float> {0.25, 0.25, 0.25},
-                     std::vector<float> direction = std::vector<float> {1.0, 1.0, 1.0},
-                     float radius = 1.0,
-                     std::vector<float> rotation = std::vector<float> {0, 0, 0, 0}) {
-        this->type = type;
-        this->name = name;
-        this->mesh = mesh;
-        this->position = position;
-        this->scale = scale;
-        this->direction = direction;
-        this->radius = radius;
-        this->rotation = rotation;
-        obj = JsonHelper::CreateJsonObject();
-        JsonHelper::AddStringToJsonObject(obj, "type", this->type);
-        JsonHelper::AddStringToJsonObject(obj, "name", this->name);
-        JsonHelper::AddStringToJsonObject(obj, "mesh", this->mesh);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "position", this->position);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "scale", this->scale);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "direction", this->direction);
-        JsonHelper::AddFloatToJsonObject(obj, "radius", this->radius);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "rotation", this->rotation);
-      } // PicoJsonObjectCustomer()
-  }; // PicoJsonObjectCustomer
 
   class CustomerTest : public ::testing::Test {
     public: 
