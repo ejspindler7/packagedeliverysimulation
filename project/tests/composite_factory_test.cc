@@ -11,7 +11,7 @@ namespace csci3081 {
     class CompositeFactoryTest : public ::testing::Test {
     public: 
       void SetUp() {
-        details_1 = PicoJsonObjectDrone("drone",
+        d_details_1 = PicoJsonObjectDrone("drone",
                                    "drone2",
                                    "models/s9drone.glb",
                                    std::vector<float> {0.0, 0.0, 0.0},
@@ -24,7 +24,7 @@ namespace csci3081 {
                                    0.0,
                                    std::vector<float> {0.0, 0.0, 0.0});
 
-        details_2 = PicoJsonObjectDrone("drone",
+        d_details_2 = PicoJsonObjectDrone("drone",
                                    "drone3",
                                    "models/s9drone.glb",
                                    std::vector<float> {3.0, 4.0, 5.0},
@@ -77,8 +77,8 @@ namespace csci3081 {
 
     protected:
       CompositeFactory c1;
-      PicoJsonObjectDrone details_1;
-      PicoJsonObjectDrone details_2;
+      PicoJsonObjectDrone d_details_1;
+      PicoJsonObjectDrone d_details_2;
       PicoJsonObjectPackage p_details_1;
       PicoJsonObjectPackage p_details_2;
       PicoJsonObjectCustomer c_details_1;
@@ -95,23 +95,29 @@ namespace csci3081 {
     c1.AddFactory(new PackageFactory());
     c1.AddFactory(new CustomerFactory());
 
-    IEntity* entity = c1.CreateEntity(details_1.obj);
+    IEntity* entity = c1.CreateEntity(d_details_1.obj);
     EXPECT_NE(entity, nullptr) << "Create entity drone error";
+    EXPECT_NE(dynamic_cast<Drone*>(entity), nullptr) << "Create entity drone error";
 
-    entity = c1.CreateEntity(details_2.obj);
+    entity = c1.CreateEntity(d_details_2.obj);
     EXPECT_NE(entity, nullptr) << "Create entity drone error";
+    EXPECT_NE(dynamic_cast<Drone*>(entity), nullptr) << "Create entity drone error";
 
     entity = c1.CreateEntity(p_details_1.obj);
     EXPECT_NE(entity, nullptr) << "Create entity package error";
+    EXPECT_NE(dynamic_cast<Package*>(entity), nullptr) << "Create entity package error";
 
     entity = c1.CreateEntity(p_details_2.obj);
     EXPECT_NE(entity, nullptr) << "Create entity package error";
+    EXPECT_NE(dynamic_cast<Package*>(entity), nullptr) << "Create entity package error";
 
     entity = c1.CreateEntity(c_details_1.obj);
     EXPECT_NE(entity, nullptr) << "Create entity customer error";
+    EXPECT_NE(dynamic_cast<Customer*>(entity), nullptr) << "Create entity customer error";
 
     entity = c1.CreateEntity(c_details_2.obj);
     EXPECT_NE(entity, nullptr) << "Create entity customer error";
+    EXPECT_NE(dynamic_cast<Customer*>(entity), nullptr) << "Create entity customer error";
   }
 
 }  // namespace csci3081

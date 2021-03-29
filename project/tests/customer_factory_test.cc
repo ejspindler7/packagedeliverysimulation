@@ -7,7 +7,7 @@ namespace csci3081 {
   class CustomerFactoryTest : public ::testing::Test {
     public: 
       void SetUp() {
-        details_1 = PicoJsonObjectDrone("drone",
+        d_details_1 = PicoJsonObjectDrone("drone",
                                    "drone2",
                                    "models/s9drone.glb",
                                    std::vector<float> {0.0, 0.0, 0.0},
@@ -20,7 +20,7 @@ namespace csci3081 {
                                    0.0,
                                    std::vector<float> {0.0, 0.0, 0.0});
 
-        details_2 = PicoJsonObjectDrone("drone",
+        d_details_2 = PicoJsonObjectDrone("drone",
                                    "drone3",
                                    "models/s9drone.glb",
                                    std::vector<float> {3.0, 4.0, 5.0},
@@ -73,8 +73,8 @@ namespace csci3081 {
 
     protected:
       CustomerFactory cf;
-      PicoJsonObjectDrone details_1;
-      PicoJsonObjectDrone details_2;
+      PicoJsonObjectDrone d_details_1;
+      PicoJsonObjectDrone d_details_2;
       PicoJsonObjectPackage p_details_1;
       PicoJsonObjectPackage p_details_2;
       PicoJsonObjectCustomer c_details_1;
@@ -88,14 +88,16 @@ namespace csci3081 {
   TEST_F(CustomerFactoryTest, CreateEntityTests) {
     IEntity* entity = cf.CreateEntity(c_details_1.obj);
     EXPECT_NE(entity, nullptr) << "Create entity customer error";
+    EXPECT_NE(dynamic_cast<Customer*>(entity), nullptr) << "Create entity customer error";
 
     entity = cf.CreateEntity(c_details_2.obj);
     EXPECT_NE(entity, nullptr) << "Create entity customer error";
+    EXPECT_NE(dynamic_cast<Customer*>(entity), nullptr) << "Create entity customer error";
 
-    entity = cf.CreateEntity(details_1.obj);
+    entity = cf.CreateEntity(d_details_1.obj);
     EXPECT_EQ(entity, nullptr) << "Create entity drone error";
 
-    entity = cf.CreateEntity(details_2.obj);
+    entity = cf.CreateEntity(d_details_2.obj);
     EXPECT_EQ(entity, nullptr) << "Create entity drone error";
 
     entity = cf.CreateEntity(p_details_1.obj);
