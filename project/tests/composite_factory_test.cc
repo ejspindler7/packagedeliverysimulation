@@ -1,161 +1,17 @@
 #include "gtest/gtest.h"
 #include "../include/composite_factory.h"
+#include "picojson_test_objects.h"
+#include "drone_factory.h"
+#include "package_factory.h"
+#include "customer_factory.h"
+#include "robot_factory.h"
 
 namespace csci3081 {
 
-  class PicoJsonObjectDrone {
-    public:
-      // attributes
-      std::string type;
-      std::string name;
-      std::string mesh;
-      std::vector<float> position;
-      std::vector<float> scale;
-      std::vector<float> rotation;
-      std::vector<float> direction;
-      float speed;
-      float radius;
-      float start;
-      float duration;
-      std::vector<float> offset;
-      picojson::object obj;
-      // constructor
-      PicoJsonObjectDrone(std::string type = "drone",
-                     std::string name = "drone",
-                     std::string mesh = "models/s9drone.glb",
-                     std::vector<float> position = std::vector<float> {1.0, 2.0, 3.0},
-                     std::vector<float> scale = std::vector<float> {0.25, 0.25, 0.25},
-                     std::vector<float> rotation = std::vector<float> {0, 0, 0, 0}, 
-                     std::vector<float> direction = std::vector<float> {1.0, 1.0, 1.0},
-                     float speed = 30.0,
-                     float radius = 1.0,
-                     float start = 2.0,
-                     float duration = 2.0,
-                     std::vector<float> offset = std::vector<float> {0, 0.2, 0}) {
-        this->type = type;
-        this->name = name;
-        this->mesh = mesh;
-        this->position = position;
-        this->scale = scale;
-        this->rotation = rotation;
-        this->direction = direction;
-        this->speed = speed;
-        this->radius = radius;
-        this->start = start;
-        this->duration = duration;
-        this->offset = offset;
-        obj = JsonHelper::CreateJsonObject();
-        JsonHelper::AddStringToJsonObject(obj, "type", this->type);
-        JsonHelper::AddStringToJsonObject(obj, "name", this->name);
-        JsonHelper::AddStringToJsonObject(obj, "mesh", this->mesh);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "position", this->position);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "scale", this->scale);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "rotation", this->rotation);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "direction", this->direction);
-        JsonHelper::AddFloatToJsonObject(obj, "speed", this->speed);
-        JsonHelper::AddFloatToJsonObject(obj, "radius", this->radius);
-        JsonHelper::AddFloatToJsonObject(obj, "start", this->start);
-        JsonHelper::AddFloatToJsonObject(obj, "duration", this->duration);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "offset", this->offset);
-        // print out the built PicoJson object
-        /* JsonHelper::PrintEntityDetails(obj); */
-      } // PicoJsonObjectDrone()
-  }; // PicoJsonObjectDrone
-
-  class PicoJsonObjectPackage {
-    public:
-      // attributes
-      std::string type;
-      std::string name;
-      std::string mesh;
-      std::vector<float> position;
-      std::vector<float> scale;
-      std::vector<float> direction;
-      float radius;
-      std::vector<float> rotation;
-      std::vector<float> offset;
-      picojson::object obj;
-      // constructor
-      PicoJsonObjectPackage(std::string type = "package",
-                     std::string name = "package",
-                     std::string mesh = "models/cardboardBox.glb",
-                     std::vector<float> position = std::vector<float> {1.0, 2.0, 3.0},
-                     std::vector<float> scale = std::vector<float> {0.25, 0.25, 0.25},
-                     std::vector<float> direction = std::vector<float> {1.0, 1.0, 1.0},
-                     float radius = 1.0,
-                     std::vector<float> rotation = std::vector<float> {0, 0, 0, 0}, 
-                     std::vector<float> offset = std::vector<float> {0, 0.2, 0}) {
-        this->type = type;
-        this->name = name;
-        this->mesh = mesh;
-        this->position = position;
-        this->scale = scale;
-        this->direction = direction;
-        this->radius = radius;
-        this->rotation = rotation;
-        this->offset = offset;
-        obj = JsonHelper::CreateJsonObject();
-        JsonHelper::AddStringToJsonObject(obj, "type", this->type);
-        JsonHelper::AddStringToJsonObject(obj, "name", this->name);
-        JsonHelper::AddStringToJsonObject(obj, "mesh", this->mesh);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "position", this->position);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "scale", this->scale);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "direction", this->direction);
-        JsonHelper::AddFloatToJsonObject(obj, "radius", this->radius);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "rotation", this->rotation);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "offset", this->offset);
-        // print out the built PicoJson object
-        /* JsonHelper::PrintEntityDetails(obj); */
-      } // PicoJsonObjectPackage()
-  }; // PicoJsonObjectPackage
-
-  class PicoJsonObjectCustomer {
-    public:
-      // attributes
-      std::string type;
-      std::string name;
-      std::string mesh;
-      std::vector<float> position;
-      std::vector<float> scale;
-      std::vector<float> direction;
-      float radius;
-      std::vector<float> rotation;
-      picojson::object obj;
-      // constructor
-      PicoJsonObjectCustomer(std::string type = "customer",
-                     std::string name = "customer",
-                     std::string mesh = "models/RobotExpressive.glb",
-                     std::vector<float> position = std::vector<float> {1.0, 2.0, 3.0},
-                     std::vector<float> scale = std::vector<float> {0.25, 0.25, 0.25},
-                     std::vector<float> direction = std::vector<float> {1.0, 1.0, 1.0},
-                     float radius = 1.0,
-                     std::vector<float> rotation = std::vector<float> {0, 0, 0, 0}) {
-        this->type = type;
-        this->name = name;
-        this->mesh = mesh;
-        this->position = position;
-        this->scale = scale;
-        this->direction = direction;
-        this->radius = radius;
-        this->rotation = rotation;
-        obj = JsonHelper::CreateJsonObject();
-        JsonHelper::AddStringToJsonObject(obj, "type", this->type);
-        JsonHelper::AddStringToJsonObject(obj, "name", this->name);
-        JsonHelper::AddStringToJsonObject(obj, "mesh", this->mesh);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "position", this->position);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "scale", this->scale);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "direction", this->direction);
-        JsonHelper::AddFloatToJsonObject(obj, "radius", this->radius);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "rotation", this->rotation);
-        // print out the built PicoJson object
-        /* JsonHelper::PrintEntityDetails(obj); */
-      } // PicoJsonObjectCustomer()
-  }; // PicoJsonObjectCustomer
-
-  class CompositeFactoryTest : public ::testing::Test {
+    class CompositeFactoryTest : public ::testing::Test {
     public: 
       void SetUp() {
-        details_1 = PicoJsonObjectDrone("drone",
+        d_details_1 = PicoJsonObjectDrone("drone",
                                    "drone2",
                                    "models/s9drone.glb",
                                    std::vector<float> {0.0, 0.0, 0.0},
@@ -168,7 +24,7 @@ namespace csci3081 {
                                    0.0,
                                    std::vector<float> {0.0, 0.0, 0.0});
 
-        details_2 = PicoJsonObjectDrone("drone",
+        d_details_2 = PicoJsonObjectDrone("drone",
                                    "drone3",
                                    "models/s9drone.glb",
                                    std::vector<float> {3.0, 4.0, 5.0},
@@ -221,8 +77,8 @@ namespace csci3081 {
 
     protected:
       CompositeFactory c1;
-      PicoJsonObjectDrone details_1;
-      PicoJsonObjectDrone details_2;
+      PicoJsonObjectDrone d_details_1;
+      PicoJsonObjectDrone d_details_2;
       PicoJsonObjectPackage p_details_1;
       PicoJsonObjectPackage p_details_2;
       PicoJsonObjectCustomer c_details_1;
@@ -234,23 +90,34 @@ namespace csci3081 {
    ******************************************************************************/
 
   TEST_F(CompositeFactoryTest, CreateEntityTests) {
-    IEntity* entity = c1.CreateEntity(details_1.obj);
-    EXPECT_NE(entity, nullptr) << "Create entity drone error";
+    c1.AddFactory(new DroneFactory());
+    c1.AddFactory(new RobotFactory());
+    c1.AddFactory(new PackageFactory());
+    c1.AddFactory(new CustomerFactory());
 
-    entity = c1.CreateEntity(details_2.obj);
+    IEntity* entity = c1.CreateEntity(d_details_1.obj);
     EXPECT_NE(entity, nullptr) << "Create entity drone error";
+    EXPECT_NE(dynamic_cast<Drone*>(entity), nullptr) << "Create entity drone error";
+
+    entity = c1.CreateEntity(d_details_2.obj);
+    EXPECT_NE(entity, nullptr) << "Create entity drone error";
+    EXPECT_NE(dynamic_cast<Drone*>(entity), nullptr) << "Create entity drone error";
 
     entity = c1.CreateEntity(p_details_1.obj);
     EXPECT_NE(entity, nullptr) << "Create entity package error";
+    EXPECT_NE(dynamic_cast<Package*>(entity), nullptr) << "Create entity package error";
 
     entity = c1.CreateEntity(p_details_2.obj);
     EXPECT_NE(entity, nullptr) << "Create entity package error";
+    EXPECT_NE(dynamic_cast<Package*>(entity), nullptr) << "Create entity package error";
 
     entity = c1.CreateEntity(c_details_1.obj);
     EXPECT_NE(entity, nullptr) << "Create entity customer error";
+    EXPECT_NE(dynamic_cast<Customer*>(entity), nullptr) << "Create entity customer error";
 
     entity = c1.CreateEntity(c_details_2.obj);
     EXPECT_NE(entity, nullptr) << "Create entity customer error";
+    EXPECT_NE(dynamic_cast<Customer*>(entity), nullptr) << "Create entity customer error";
   }
 
 }  // namespace csci3081

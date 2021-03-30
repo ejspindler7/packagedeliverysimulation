@@ -36,9 +36,7 @@ namespace csci3081 {
           for (std::vector<float> point : path) { // fill route queue
             route_.push(Vector3D(point));
           } // for
-        } else {
-          std::cerr << "Error: IGraph* not set in courier" << std::endl;
-        } // else
+        } 
         break;
       case kBeeline:
         point_2 = position_;

@@ -1,51 +1,9 @@
 #include "gtest/gtest.h"
 #include "json_helper.h"
 #include "../include/customer.h"
+#include "picojson_test_objects.h"
 
 namespace csci3081 {
-  
-  class PicoJsonObjectCustomer {
-    public:
-      // attributes
-      std::string type;
-      std::string name;
-      std::string mesh;
-      std::vector<float> position;
-      std::vector<float> scale;
-      std::vector<float> direction;
-      float radius;
-      std::vector<float> rotation;
-      picojson::object obj;
-      // constructor
-      PicoJsonObjectCustomer(std::string type = "customer",
-                     std::string name = "customer",
-                     std::string mesh = "models/RobotExpressive.glb",
-                     std::vector<float> position = std::vector<float> {1.0, 2.0, 3.0},
-                     std::vector<float> scale = std::vector<float> {0.25, 0.25, 0.25},
-                     std::vector<float> direction = std::vector<float> {1.0, 1.0, 1.0},
-                     float radius = 1.0,
-                     std::vector<float> rotation = std::vector<float> {0, 0, 0, 0}) {
-        this->type = type;
-        this->name = name;
-        this->mesh = mesh;
-        this->position = position;
-        this->scale = scale;
-        this->direction = direction;
-        this->radius = radius;
-        this->rotation = rotation;
-        obj = JsonHelper::CreateJsonObject();
-        JsonHelper::AddStringToJsonObject(obj, "type", this->type);
-        JsonHelper::AddStringToJsonObject(obj, "name", this->name);
-        JsonHelper::AddStringToJsonObject(obj, "mesh", this->mesh);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "position", this->position);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "scale", this->scale);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "direction", this->direction);
-        JsonHelper::AddFloatToJsonObject(obj, "radius", this->radius);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "rotation", this->rotation);
-        // print out the built PicoJson object
-        /* JsonHelper::PrintEntityDetails(obj); */
-      } // PicoJsonObjectCustomer()
-  }; // PicoJsonObjectCustomer
 
   class CustomerTest : public ::testing::Test {
     public: 
@@ -101,13 +59,6 @@ namespace csci3081 {
     EXPECT_EQ(picojson::value(c3.GetDetails()).serialize(), picojson::value(details_3.obj).serialize())
       << "c3 - incorrect details initializaiton";
     
-    /* Check that id gets set to expected value */
-    /* Note that the three commented out EXPECT_EQ won't work since entities may */
-    /* have been created in other test files and the id of any entity is unique */
-    /* (uses a static class variable). */
-    /* EXPECT_EQ(c1.GetId(), 1) << "c1 - incorrect Id initialization"; */
-    /* EXPECT_EQ(c2.GetId(), 2) << "c2 - incorrect Id initialization"; */
-    /* EXPECT_EQ(c3.GetId(), 3) << "c3 - incorrect Id initialization"; */
     EXPECT_NE(c1.GetId(), c2.GetId()) << "c1, c2 - incorrect Id initialization";
     EXPECT_NE(c2.GetId(), c3.GetId()) << "c2, c3 - incorrect Id initialization";
 

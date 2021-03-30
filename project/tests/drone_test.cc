@@ -2,114 +2,9 @@
 #include "json_helper.h"
 #include "../include/drone.h"
 #include "../include/package.h"
+#include "picojson_test_objects.h"
 
 namespace csci3081 {
-  
-  class PicoJsonObjectDrone {
-    public:
-      // attributes
-      std::string type;
-      std::string name;
-      std::string mesh;
-      std::vector<float> position;
-      std::vector<float> scale;
-      std::vector<float> rotation;
-      std::vector<float> direction;
-      float speed;
-      float radius;
-      float start;
-      float duration;
-      std::vector<float> offset;
-      picojson::object obj;
-      // constructor
-      PicoJsonObjectDrone(std::string type = "drone",
-                     std::string name = "drone",
-                     std::string mesh = "models/s9drone.glb",
-                     std::vector<float> position = std::vector<float> {1.0, 2.0, 3.0},
-                     std::vector<float> scale = std::vector<float> {0.25, 0.25, 0.25},
-                     std::vector<float> rotation = std::vector<float> {0, 0, 0, 0}, 
-                     std::vector<float> direction = std::vector<float> {1.0, 1.0, 1.0},
-                     float speed = 30.0,
-                     float radius = 1.0,
-                     float start = 2.0,
-                     float duration = 2.0,
-                     std::vector<float> offset = std::vector<float> {0, 0.2, 0}) {
-        this->type = type;
-        this->name = name;
-        this->mesh = mesh;
-        this->position = position;
-        this->scale = scale;
-        this->rotation = rotation;
-        this->direction = direction;
-        this->speed = speed;
-        this->radius = radius;
-        this->start = start;
-        this->duration = duration;
-        this->offset = offset;
-        obj = JsonHelper::CreateJsonObject();
-        JsonHelper::AddStringToJsonObject(obj, "type", this->type);
-        JsonHelper::AddStringToJsonObject(obj, "name", this->name);
-        JsonHelper::AddStringToJsonObject(obj, "mesh", this->mesh);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "position", this->position);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "scale", this->scale);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "rotation", this->rotation);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "direction", this->direction);
-        JsonHelper::AddFloatToJsonObject(obj, "speed", this->speed);
-        JsonHelper::AddFloatToJsonObject(obj, "radius", this->radius);
-        JsonHelper::AddFloatToJsonObject(obj, "start", this->start);
-        JsonHelper::AddFloatToJsonObject(obj, "duration", this->duration);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "offset", this->offset);
-        // print out the built PicoJson object
-        /* JsonHelper::PrintEntityDetails(obj); */
-      } // PicoJsonObjectDrone()
-  }; // PicoJsonObjectDrone
-
-  class PicoJsonObjectPackage {
-    public:
-      // attributes
-      std::string type;
-      std::string name;
-      std::string mesh;
-      std::vector<float> position;
-      std::vector<float> scale;
-      std::vector<float> direction;
-      float radius;
-      std::vector<float> rotation;
-      std::vector<float> offset;
-      picojson::object obj;
-      // constructor
-      PicoJsonObjectPackage(std::string type = "package",
-                     std::string name = "package",
-                     std::string mesh = "models/cardboardBox.glb",
-                     std::vector<float> position = std::vector<float> {1.0, 2.0, 3.0},
-                     std::vector<float> scale = std::vector<float> {0.25, 0.25, 0.25},
-                     std::vector<float> direction = std::vector<float> {1.0, 1.0, 1.0},
-                     float radius = 1.0,
-                     std::vector<float> rotation = std::vector<float> {0, 0, 0, 0}, 
-                     std::vector<float> offset = std::vector<float> {0, 0.2, 0}) {
-        this->type = type;
-        this->name = name;
-        this->mesh = mesh;
-        this->position = position;
-        this->scale = scale;
-        this->direction = direction;
-        this->radius = radius;
-        this->rotation = rotation;
-        this->offset = offset;
-        obj = JsonHelper::CreateJsonObject();
-        JsonHelper::AddStringToJsonObject(obj, "type", this->type);
-        JsonHelper::AddStringToJsonObject(obj, "name", this->name);
-        JsonHelper::AddStringToJsonObject(obj, "mesh", this->mesh);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "position", this->position);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "scale", this->scale);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "direction", this->direction);
-        JsonHelper::AddFloatToJsonObject(obj, "radius", this->radius);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "rotation", this->rotation);
-        JsonHelper::AddStdFloatVectorToJsonObject(obj, "offset", this->offset);
-        // print out the built PicoJson object
-        /* JsonHelper::PrintEntityDetails(obj); */
-      } // PicoJsonObjectPackage()
-  }; // PicoJsonObjectPackage
 
   class DroneTest : public ::testing::Test {
     public: 
@@ -183,13 +78,6 @@ namespace csci3081 {
     EXPECT_EQ(picojson::value(d3.GetDetails()).serialize(), picojson::value(details_3.obj).serialize())
       << "d3 - incorrect details initializaiton";
     
-    /* Check that id gets set to expected value */
-    /* Note that the three commented out EXPECT_EQ won't work since entities may */
-    /* have been created in other test files and the id of any entity is unique */
-    /* (b/c uses a static class variable). */
-    /* EXPECT_EQ(d1.GetId(), 1) << "d1 - incorrect Id initialization"; */
-    /* EXPECT_EQ(d2.GetId(), 2) << "d2 - incorrect Id initialization"; */
-    /* EXPECT_EQ(d3.GetId(), 3) << "d3 - incorrect Id initialization"; */
     EXPECT_NE(d1.GetId(), d2.GetId()) << "d1, d2 - incorrect Id initialization";
     EXPECT_NE(d2.GetId(), d3.GetId()) << "d2, d3 - incorrect Id initialization";
 
@@ -327,17 +215,6 @@ namespace csci3081 {
     
     EXPECT_EQ(d3.GetPackage(), nullptr) 
       << "d3 - incorrect package initialization";
-
-    /* Check that use_smart_route gets set to expected value */
-    /* Note that use_smart_route is initialized to true when drone is created */
-    EXPECT_EQ(d1.UsingSmartRoute(), true) 
-      << "d1 - incorrect use_smart_route initialization";
-
-    EXPECT_EQ(d2.UsingSmartRoute(), true) 
-      << "d2 - incorrect use_smart_route initialization";
-    
-    EXPECT_EQ(d3.UsingSmartRoute(), true) 
-      << "d3 - incorrect use_smart_route initialization";
 
     /* Check that status gets set to expected value */
     /* Note that status is initialized to kReady when drone is created */
