@@ -116,7 +116,7 @@ namespace csci3081 {
       Courier* courier = dynamic_cast<Courier*>(entity);
       if (courier) {
         //when package is picked up notify observers
-        /*if ((courier->GetStatus() == 2) && (courier->getNotification() == 1)){
+        if ((courier->GetStatus() == 2) && (courier->getNotification() == 1)){
             picojson::object notifications = JsonHelper::CreateJsonNotification();
             JsonHelper::AddStringToJsonObject(notifications,"value", "en route");
             notifyObserver(notifications, courier);
@@ -133,7 +133,7 @@ namespace csci3081 {
           picojson::object notifications = JsonHelper::CreateJsonNotification();
           JsonHelper::AddStringToJsonObject(notifications,"value", "idle");
           notifyObserver(notifications, courier);
-        }*/
+        }
 
         courier->Update(dt);
       } // if
