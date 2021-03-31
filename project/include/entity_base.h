@@ -167,6 +167,8 @@ namespace csci3081 {
       picojson::object details_;
       int version_;
       bool dynamic_;
+  
+
 
     private:
       static int next_id_;

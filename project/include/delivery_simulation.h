@@ -89,11 +89,14 @@ namespace csci3081 {
     */
     void ScheduleDelivery(IEntity* package, IEntity* dest);
 
-    /** Observer functions will not be used in iteration1 */
+    /** This function adds an observer to observers_*/
     void AddObserver(IEntityObserver* observer);
 
-    /** Observer functions will not be used in iteration1 */
+    /** This function removes an observer from observers_*/
     void RemoveObserver(IEntityObserver* observer);
+
+    /** This function notifies all observers on the event that is passed in with the correlating entity **/
+    void notifyObserver(picojson::object& event, IEntity* entity);
 
     /**
     GetEntities should return all entities that have been ADDED to the system
@@ -125,6 +128,7 @@ namespace csci3081 {
     // the most straightforward way of storing the entities in the system.
     // Feel free to use it as is or change it.
     std::vector<IEntity*> entities_;
+    std::vector<IEntityObserver*> observers_;
     std::queue<Package*> package_queue_;
     CompositeFactory composite_factory_;
     const IGraph* graph_;

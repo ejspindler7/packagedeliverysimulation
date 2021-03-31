@@ -3,7 +3,7 @@
 ## Group Members
 + Imran Ahmed : ahmed640
 + Anthony Dierssen-Morice: diers040
-+ spind038
++ Emma Spindler: spind038
 + Tia Hannes: hanne123
 
 ## Pre-requisites

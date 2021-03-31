@@ -13,6 +13,7 @@
 #include "battery.h"
 #include <queue>
 #include <string>
+#include  "delivery_simulation.h"
 
 namespace csci3081 {
 
@@ -181,6 +182,29 @@ namespace csci3081 {
        */
       void Move(float dt);
 
+      /**
+       * @brief This function gets the integer variable associated with the enum status_.
+       *
+       * @return integer from which the status is (0,1, or 2)
+       */ 
+      int GetStatus();
+
+      /**
+       * @brief This gets the integer variable numNotify and returns it.
+       *
+       * @return an integer to keep track of which level of notifications 
+       *         this entity is on. 
+       */ 
+      int getNotification();
+
+      /**
+       * @brief This functions sets the integer numNotify.
+       * 
+       * @param num An integer that is representative of which level notification is okay to send.
+       * @return void
+       */
+      void setNotification(int num);
+
     protected:
       enum Status {
         kReady,
@@ -201,6 +225,7 @@ namespace csci3081 {
       std::queue<Vector3D> route_;
       float beeline_height_;
       const IGraph* graph_;
+      int numNotify;
   };
 } // namespace csci3081
 #endif // COURIER_H_
