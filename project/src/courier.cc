@@ -2,7 +2,7 @@
 #include "vector_2d.h"
 
 namespace csci3081 {
-
+//create methods for observer
   Courier::Courier(const picojson::object& details) : EntityBase(details) {
     destination_ = Vector3D(this->GetPosition());
     path_type_ = kSmart; // default value of path_type_
@@ -18,6 +18,7 @@ namespace csci3081 {
     dynamic_ = true;
     graph_ = nullptr;
     beeline_height_ = 450; 
+    numNotify = 0;
   } // Courier(const picojson::object&)
 
   std::vector<float> Courier::GetDestination() const {
@@ -160,4 +161,14 @@ namespace csci3081 {
     } // else
   } // Update(float) 
 
+  int Courier::GetStatus(){ 
+   return status_;
+
+  }
+  void Courier::setNotification(int num){
+    numNotify = num;
+  }
+  int Courier::getNotification(){
+    return numNotify;
+  }
 } // namespace csci3081

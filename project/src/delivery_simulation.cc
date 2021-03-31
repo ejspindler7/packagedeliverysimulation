@@ -29,6 +29,7 @@ namespace csci3081 {
 
   void DeliverySimulation::AddEntity(IEntity* entity) { 
     entities_.push_back(entity); 
+
   } // AddEntity()
 
   void DeliverySimulation::SetGraph(const IGraph* graph) {
@@ -56,6 +57,9 @@ namespace csci3081 {
 
   void DeliverySimulation::ScheduleDelivery(IEntity* package, IEntity* dest) {
     Package* package_ptr = dynamic_cast<Package*>(package); 
+    //creating notification for package
+    picojson::object notifications = JsonHelper::CreateJsonNotification();
+    JsonHelper::AddStringToJsonObject(notifications,"value", "scheduled");
     if (package_ptr) {
       package_ptr->SetDestination(dest->GetPosition());
       // find a courier to deliver package
@@ -63,6 +67,8 @@ namespace csci3081 {
       if (courier) { 
         courier->SetGraph(graph_);
         courier->SetPackage(package_ptr);
+        notifyObserver(notifications, package);
+        courier->setNotification(1);
       } else {
         // no courier available to deliver package at the moment
         package_queue_.push(package_ptr); 
@@ -73,15 +79,26 @@ namespace csci3081 {
     } // else
   } // ScheduleDelivery(IEntity*, IEntity*)
 
-  void DeliverySimulation::AddObserver(IEntityObserver* observer) {}
+  void DeliverySimulation::AddObserver(IEntityObserver* observer) {
+    observers_.push_back(observer);
+  }
 
-  void DeliverySimulation::RemoveObserver(IEntityObserver* observer) {}
+  void DeliverySimulation::RemoveObserver(IEntityObserver* observer) {
+    observers_.pop_back();
+  }
+  
+  void DeliverySimulation::notifyObserver(picojson::object& event, IEntity* entity){
+      picojson::value notificationsVal = JsonHelper::ConvertPicojsonObjectToValue(event);
+      for (int i = 0; i < observers_.size(); i++) {
+        observers_[i]->OnEvent(notificationsVal, *entity);
+      }
+  }
 
   const std::vector<IEntity*>& DeliverySimulation::GetEntities() const {
     return entities_; 
   } // GetEntities()
 
-  void DeliverySimulation::Update(float dt) {
+  void DeliverySimulation::Update(float dt) {  
     if (!package_queue_.empty()) { // assign closest available courier to package
       Courier* free_courier = ClosestAvailCourier(entities_,
                                                   package_queue_.front());
@@ -89,11 +106,35 @@ namespace csci3081 {
         free_courier->SetGraph(graph_);
         free_courier->SetPackage(package_queue_.front());
         package_queue_.pop();
+        picojson::object notifications = JsonHelper::CreateJsonNotification();
+        JsonHelper::AddStringToJsonObject(notifications,"value", "moving");
+        notifyObserver(notifications, free_courier);
+
       } // if courier
     } // if !package_queue_.empty()
     for (auto entity : entities_) { // update each courier
       Courier* courier = dynamic_cast<Courier*>(entity);
       if (courier) {
+        //when package is picked up notify observers
+        if ((courier->GetStatus() == 2) && (courier->getNotification() == 1)){
+            picojson::object notifications = JsonHelper::CreateJsonNotification();
+            JsonHelper::AddStringToJsonObject(notifications,"value", "en route");
+            notifyObserver(notifications, courier);
+            courier->setNotification(2);
+
+        }//when package is delivered notify observers
+        else if ((courier->GetStatus() == 0) && (courier->getNotification() == 2)){
+            picojson::object notifications = JsonHelper::CreateJsonNotification();
+            JsonHelper::AddStringToJsonObject(notifications,"value", "delivered");
+            notifyObserver(notifications, courier);
+            courier->setNotification(0);
+        } //trying to check if notifications is idle
+        else if (courier->IsDynamic() == false){
+          picojson::object notifications = JsonHelper::CreateJsonNotification();
+          JsonHelper::AddStringToJsonObject(notifications,"value", "idle");
+          notifyObserver(notifications, courier);
+        }
+
         courier->Update(dt);
       } // if
     } // for
