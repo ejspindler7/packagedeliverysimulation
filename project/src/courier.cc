@@ -161,7 +161,7 @@ namespace csci3081 {
     } // else
   } // Update(float) 
 
-  int Courier::GetStatus(){ 
+  /*int Courier::GetStatus(){ 
    return status_;
 
   }
@@ -170,5 +170,5 @@ namespace csci3081 {
   }
   int Courier::getNotification(){
     return numNotify;
-  }
+  }*/
 } // namespace csci3081
