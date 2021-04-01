@@ -227,39 +227,6 @@ namespace csci3081 {
     EXPECT_EQ(d3.IsAvailable(), true) 
       << "d3 - incorrect status initialization";
   } // ConstructorTests
+
   
-
-  TEST_F(DroneTest, HasPackageTests) {
-    Drone d1(details_1.obj);
-    Drone d2(details_2.obj);
-
-    Package package(p_details.obj);
-    package.SetPosition(d1.GetPosition());
-
-    d1.SetPackage(&package);
-    d1.Update(1);
-    EXPECT_EQ(d1.HasPackage(), true) << "d1 - HasPackage incorrect";
-    EXPECT_EQ(d1.IsAvailable(), false) << "d1 - IsAvailable incorrect";
-
-    EXPECT_EQ(d2.HasPackage(), false) << "d2 - HasPackage incorrect";
-  }
-
-  TEST_F(DroneTest, DropoffPackageTests) {
-    Drone d1(details_1.obj);
-    Package package(p_details.obj);
-    package.SetPosition(d1.GetPosition());
-
-    d1.SetPackage(&package);
-    d1.Update(1);
-    EXPECT_EQ(d1.HasPackage(), true) << "d1 - HasPackage incorrect";
-    EXPECT_EQ(d1.IsAvailable(), false) << "d1 - IsAvailable incorrect";
-
-    d1.DropoffPackage();
-    EXPECT_EQ(d1.GetPackage(), nullptr) << "d1 - DropoffPackage incorrect";
-    EXPECT_EQ(d1.IsAvailable(), true) << "d1 - IsAvailable incorrect";
-    EXPECT_EQ(package.GetPosition().at(0), 0) << "d1 - package x coord incorrect";
-    EXPECT_EQ(package.GetPosition().at(1), -10000) << "d1 - package y coord incorrect";
-    EXPECT_EQ(package.GetPosition().at(2), 0) << "d1 - package z coord incorrect";
-  }
-
 }  // namespace csci3081
