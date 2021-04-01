@@ -36,6 +36,38 @@
 
   }; // PicoJsonObjectDrone
 
+  class PicoJsonObjectRobot {
+    public:
+      // attributes
+      std::string type;
+      std::string name;
+      std::string mesh;
+      std::vector<float> position;
+      std::vector<float> scale;
+      std::vector<float> rotation;
+      std::vector<float> direction;
+      float speed;
+      float radius;
+      float start;
+      float duration;
+      std::vector<float> offset;
+      picojson::object obj;
+      // constructor
+      PicoJsonObjectRobot(std::string type = "robot",
+                     std::string name = "robot",
+                     std::string mesh = "models/robot.glb",
+                     std::vector<float> position = std::vector<float> {1.0, 2.0, 3.0},
+                     std::vector<float> scale = std::vector<float> {0.25, 0.25, 0.25},
+                     std::vector<float> rotation = std::vector<float> {0, 0, 0, 0}, 
+                     std::vector<float> direction = std::vector<float> {1.0, 1.0, 1.0},
+                     float speed = 30.0,
+                     float radius = 1.0,
+                     float start = 2.0,
+                     float duration = 2.0,
+                     std::vector<float> offset = std::vector<float> {0, 0.2, 0});
+
+  }; // PicoJsonObjectRobot
+
   class PicoJsonObjectPackage {
     public:
       // attributes
