@@ -2,17 +2,18 @@
 
 namespace csci3081 {
 
-  Package::Package(const picojson::object& object) : EntityBase(object) { 
+  Package::Package(const picojson::object& object) : EntityBase(object) {
     if (JsonHelper::GetString(object, "type") != "package") {
       throw "Error: Cannot create requested entity";
     } // if
     destination_ = Vector3D(this->GetPosition());
     weight_ = -1;
     customer_ = nullptr;
+    delivered_ = false;
   } // Package(const picojson::object& object)
 
   std::vector<float> Package::GetDestination() {
-    return destination_.GetComponents();   
+    return destination_.GetComponents();
   } // GetDestination()
 
   void Package::SetDestination(std::vector<float> destination) {
@@ -30,6 +31,14 @@ namespace csci3081 {
   Customer* Package::GetCustomer() {
     return customer_;
   } // GetCustomer()
+
+  bool Package::IsDelivered(){
+    return delivered_;
+  }
+
+  void Package::SetDelivered(bool delivered){
+    delivered_ = delivered;
+  }
 
   void Package::SetCustomer(Customer* customer) {
     customer_ = customer;
