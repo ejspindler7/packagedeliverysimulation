@@ -31,7 +31,7 @@ namespace csci3081 {
   class DeliverySimulation : public IDeliverySystem {
    public:
     /**
-     * @brief Constructor: adds entity factories to composite factory 
+     * @brief Constructor: adds entity factories to composite factory
      */
     DeliverySimulation();
 
@@ -75,7 +75,7 @@ namespace csci3081 {
 
     /**
     This function should simply store a reference to the IGraph* somewhere.
-    The IGraph contains useful functions such as the GetPath function which can 
+    The IGraph contains useful functions such as the GetPath function which can
     be used to get a path from one position to another.
     */
     void SetGraph(const IGraph* graph);
@@ -84,7 +84,7 @@ namespace csci3081 {
     This function tells the simulation that the IEntity* package should be delivered
     to the IEntity* dest (which is likely a customer). How the delivery takes place
     is entirely dependent on how you design your code, but it should involve a drone
-    navigating to the package, picking it up, and then moving to the customer and 
+    navigating to the package, picking it up, and then moving to the customer and
     dropping the package.
     */
     void ScheduleDelivery(IEntity* package, IEntity* dest);
@@ -96,7 +96,7 @@ namespace csci3081 {
     void RemoveObserver(IEntityObserver* observer);
 
     /** This function notifies all observers on the event that is passed in with the correlating entity **/
-    void notifyObserver(picojson::object& event, IEntity* entity);
+    void NotifyObserver(picojson::object& event, IEntity* entity);
 
     /**
     GetEntities should return all entities that have been ADDED to the system
@@ -104,7 +104,7 @@ namespace csci3081 {
     const std::vector<IEntity*>& GetEntities() const;
 
     /**
-    This function is used to advance time in the simulation. float dt refers to the 
+    This function is used to advance time in the simulation. float dt refers to the
     amount of time the update call should advance the simulation by. For instance if a drone
     moves 1 unit of distance per unit of time, and Update is called with dt=.05, then the
     drone should move 1 * .05 = .05 units of distance.
@@ -116,7 +116,7 @@ namespace csci3081 {
 
     /**
      * @brief You do not need to worry about this function
-     * 
+     *
      * This function takes care of turning json into function calls of your system.
      * YOU DO NOT NEED TO IMPLEMENT THIS
      *it is already implemented in the delivery_simulation.cc we have provided.
