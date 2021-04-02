@@ -7,7 +7,7 @@ namespace csci3081 {
     destination_ = Vector3D(this->GetPosition());
     path_type_ = kSmart; // default value of path_type_
     speed_ = JsonHelper::GetDouble(details, "speed");
-    int battery_capacity = -1; 
+    int battery_capacity = -1;
     try {
       battery_capacity = (int) JsonHelper::GetDouble(details, "battery_capacity");
       battery_ = Battery(battery_capacity);
@@ -17,13 +17,22 @@ namespace csci3081 {
     status_ = kReady; // free to use this courier to deliver new package
     dynamic_ = true;
     graph_ = nullptr;
-    beeline_height_ = 450; 
+    beeline_height_ = 450;
     numNotify = 0;
   } // Courier(const picojson::object&)
 
   std::vector<float> Courier::GetDestination() const {
     return destination_.GetComponents();
   } // GetDestination()
+
+  std::vector<std::vector<float>> QueueConvert(std::queue<Vector3D> route){
+    std::vector<std::vector<float>> to_ret;
+    while(!route.empty()){
+      to_ret.push_back(route.front().GetComponents());
+      route.pop();
+    }
+    return to_ret;
+  }
 
   void Courier::SetDestination(std::vector<float> destination) {
     destination_ = Vector3D(destination);
@@ -33,11 +42,11 @@ namespace csci3081 {
       case kSmart:
         if (graph_) {
           std::vector<std::vector<float>> path = graph_->GetPath(
-              position_.GetComponents(), destination); 
+              position_.GetComponents(), destination);
           for (std::vector<float> point : path) { // fill route queue
             route_.push(Vector3D(point));
           } // for
-        } 
+        }
         break;
       case kBeeline:
         point_2 = position_;
@@ -55,7 +64,7 @@ namespace csci3081 {
       default:
         break;
     } // switch
-  } // SetDestination(std::vector<float>) 
+  } // SetDestination(std::vector<float>)
 
   float Courier::GetSpeed() const {
     return speed_;
@@ -72,6 +81,10 @@ namespace csci3081 {
   Package* Courier::GetPackage() const {
     return package_;
   } // GetPackage()
+
+  std::vector<std::vector<float>> Courier::GetRoute() const{
+    return QueueConvert(route_);
+  }
 
   void Courier::SetPackage(Package* package) {
     package_ = package;
@@ -90,7 +103,7 @@ namespace csci3081 {
         path_type_ = kBeeline;
       } else if (path_type == "parabolic") {
         path_type_ = kParabolic;
-      } // else if 
+      } // else if
   } // SetPathType(Path)
 
   bool Courier::HasPackage() {
@@ -104,6 +117,7 @@ namespace csci3081 {
   void Courier::DropoffPackage() {
     // teleport package out of camera view
     package_->SetPosition(Vector3D(0, -10000, 0));
+    package_->SetDelivered(true);
     package_ = nullptr;
     status_ = kReady;
   } // DropoffPackage()
@@ -120,16 +134,16 @@ namespace csci3081 {
         } else {
           break;
         } // else
-      } // if 
+      } // if
     } // for
     Vector2D direction_2d(direction.GetComponents());
     if (direction_2d.Magnitude() > this->GetRadius()) {
       this->SetDirection(direction_2d);
     } // if
     position_ = position_ + direction.Normalize().Scale(speed_*dt);
-    if (this->HasPackage()) { 
+    if (this->HasPackage()) {
     // keep package tethered to courier
-      package_->SetPosition(position_); 
+      package_->SetPosition(position_);
     } // if
   } // Move()
 
@@ -157,9 +171,9 @@ namespace csci3081 {
         battery_.Deplete(dt);
       } // else battery
     } // else
-  } // Update(float) 
+  } // Update(float)
 
-  int Courier::GetStatus(){ 
+  int Courier::GetStatus(){
    return status_;
 
   }
