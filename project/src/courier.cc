@@ -1,11 +1,13 @@
 #include "courier.h"
+#include "smart_route.h"
+#include "beeline_route.h"
+#include "parabolic_route.h"
 #include "vector_2d.h"
 
 namespace csci3081 {
 //create methods for observer
   Courier::Courier(const picojson::object& details) : EntityBase(details) {
     destination_ = Vector3D(this->GetPosition());
-    path_type_ = kSmart; // default value of path_type_
     speed_ = JsonHelper::GetDouble(details, "speed");
     int battery_capacity = -1;
     try {
@@ -16,10 +18,14 @@ namespace csci3081 {
     package_ = nullptr; // no package to begin with
     status_ = kReady; // free to use this courier to deliver new package
     dynamic_ = true;
+    route_strategy_ = nullptr; 
     graph_ = nullptr;
-    beeline_height_ = 450;
     numNotify = 0;
   } // Courier(const picojson::object&)
+
+  Courier::~Courier() {
+    delete route_strategy_;
+  } // ~Courier()
 
   std::vector<float> Courier::GetDestination() const {
     return destination_.GetComponents();
@@ -32,38 +38,11 @@ namespace csci3081 {
       route.pop();
     }
     return to_ret;
-  }
+  } // QueueConvert()
 
   void Courier::SetDestination(std::vector<float> destination) {
     destination_ = Vector3D(destination);
-    route_ = std::queue<Vector3D>();
-    Vector3D point_2, point_3; // used when path_type_ == kBeeline
-    switch (path_type_) {
-      case kSmart:
-        if (graph_) {
-          std::vector<std::vector<float>> path = graph_->GetPath(
-              position_.GetComponents(), destination);
-          for (std::vector<float> point : path) { // fill route queue
-            route_.push(Vector3D(point));
-          } // for
-        }
-        break;
-      case kBeeline:
-        point_2 = position_;
-        point_3 = destination_;
-        point_2.SetY(beeline_height_);
-        point_3.SetY(beeline_height_);
-        route_.push(position_);
-        route_.push(point_2);
-        route_.push(point_3);
-        route_.push(destination_);
-        break;
-      case kParabolic:
-        std::cerr << "Error: parabolic not yet implemented" << std::endl;
-        break;
-      default:
-        break;
-    } // switch
+    this->UpdateRoute();
   } // SetDestination(std::vector<float>)
 
   float Courier::GetSpeed() const {
@@ -82,9 +61,14 @@ namespace csci3081 {
     return package_;
   } // GetPackage()
 
+  void Courier::UpdateRoute() {
+    route_ = route_strategy_->GetRoute(position_.GetComponents(), 
+                                       destination_.GetComponents());
+  } // UpdateRoute()
+
   std::vector<std::vector<float>> Courier::GetRoute() const{
     return QueueConvert(route_);
-  }
+  } // GetRoute()
 
   void Courier::SetPackage(Package* package) {
     package_ = package;
@@ -94,16 +78,27 @@ namespace csci3081 {
 
   void Courier::SetGraph(const IGraph* graph) {
     graph_ = graph;
+    if (!route_strategy_) {
+      route_strategy_ = new SmartRoute(graph_);
+    } // if
   } // SetGraph(const IGraph*)
 
   void Courier::SetPathType(std::string path_type) {
-      if (path_type == "smart") {
-        path_type_ = kSmart;
-      } else if (path_type == "beeline") {
-        path_type_ = kBeeline;
-      } else if (path_type == "parabolic") {
-        path_type_ = kParabolic;
-      } // else if
+    const IRoute* current = route_strategy_;
+    if (path_type == "smart") {
+      if (graph_) {
+        route_strategy_ = new SmartRoute(graph_);
+      } // if
+    } else if (path_type == "beeline") {
+      route_strategy_ = new BeelineRoute();
+    } else if (path_type == "parabolic") {
+      route_strategy_ = new ParabolicRoute();
+    } else {
+      return;
+    } // else
+    if (current) {
+      delete current;
+    } // if
   } // SetPathType(Path)
 
   bool Courier::HasPackage() {
@@ -174,13 +169,14 @@ namespace csci3081 {
   } // Update(float)
 
   int Courier::GetStatus(){
-   return status_;
+    return status_;
+  } // GetStatus()
 
-  }
   void Courier::setNotification(int num){
     numNotify = num;
-  }
+  } // setNotification(int)
+
   int Courier::getNotification(){
     return numNotify;
-  }
+  } // getNotification()
 } // namespace csci3081
