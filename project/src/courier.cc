@@ -24,7 +24,8 @@ namespace csci3081 {
   } // Courier(const picojson::object&)
 
   Courier::~Courier() {
-    delete route_strategy_;
+    if (route_strategy_)
+      delete route_strategy_;
   } // ~Courier()
 
   std::vector<float> Courier::GetDestination() const {
@@ -62,8 +63,9 @@ namespace csci3081 {
   } // GetPackage()
 
   void Courier::UpdateRoute() {
-    route_ = route_strategy_->GetRoute(position_.GetComponents(), 
-                                       destination_.GetComponents());
+    if (route_strategy_)
+      route_ = route_strategy_->GetRoute(position_.GetComponents(), 
+                                         destination_.GetComponents());
   } // UpdateRoute()
 
   std::vector<std::vector<float>> Courier::GetRoute() const{
