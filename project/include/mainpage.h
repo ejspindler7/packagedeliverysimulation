@@ -142,8 +142,9 @@ Team Documentation that includes summaries of team meetings
 Iteration 2 First Deliverable
 March 26, 2021
 Meeting one consisted of reading the Iteration 2 requirements and having an understanding of the requirements for the first deliverable.
-This meeting also consisted of making the decision to use Anthony's code from Iteration 1 for Iteration 2. Anthony pushed his code to 
-the shared repo for our team. Planned for next meeting on Monday.
+This meeting also consisted of making the decision on whose code to use. The team collectively decided to use Anthony's code from 
+Iteration 1 for Iteration 2. Anthony pushed his code to the shared repo for our team. The work was distributed between team members. 
+Planned for next meeting on Monday.
  
 Anthony was assigned Priority level 1 number 2. This consisted of created a robot class and restructuring the code then to have
 a courier class. Anthony already had the capability of multiple drones and packages being delivered from multiple Drone/Robots 
@@ -187,9 +188,12 @@ Emma was assigned the documentation of the Team Meetings.
  
  
 April 16, 2021
-Discussed the distribution of the tasks to ensure it felt equal. Went over the grading rubric to ensure all tasks were accounted for. Discussed if everyone felt they would be able to
-complete their tasks before the deadline. Planned next meeting for Monday at 4 pm.
+Discussed the distribution of the tasks. Went over the grading rubric to ensure all tasks were accounted for. Discussed the rubric's and 
+assigned remaining tasks. Discussed if everyone felt they would be able to complete their tasks before the deadline. Planned next meeting 
+for Monday at 4 pm.
  
 Emma was assigned the documentation for the Observer Pattern.
+
+Tia was assigned modifying google tests for the routes.
 
 */
