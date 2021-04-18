@@ -196,4 +196,7 @@ Emma was assigned the documentation for the Observer Pattern.
 
 Tia was assigned modifying google tests for the routes.
 
+April 19, 2021 
+Reviewed the accomplished work and submitted Iteration 2 Final Deliverable. 
+
 */
