@@ -138,7 +138,7 @@ composite factory pattern.
  
 
  
-* \section Observer Pattern Design
+* \section design_ Observer Pattern Design
 The observer design was to create a function called NotifyObserver within delivery simulation that handles the actual notifying the observers and to call this function when a
 notification needs to be sent. The NotifyObserver has a helper function called ScheduledNotifications. ScheduledNotifications handles when a Drone/Robot is moving and when a package is
 scheduled. ScheduledNotifications creates a pico json object and adds the correct value for the notification. ScheduledNotifications will then call NotifyObserver to send the notification 
