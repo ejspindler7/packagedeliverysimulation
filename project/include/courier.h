@@ -32,9 +32,8 @@ namespace csci3081 {
     public:
 
       /**
-       * @brief Constructor.
+       * @brief Constructor: Creates the requested Courier entity
        *
-       * Creates the requested Courier entity.
        *
        * @param details A picojson object containing requested courier details.
        */

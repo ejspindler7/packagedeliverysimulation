@@ -24,6 +24,11 @@ namespace csci3081 {
    */
   class SmartRoute : public IRoute {
     public: 
+      /**
+       * @brief Constructor: instantiates a SmartRoute object 
+       *  
+       * @param graph An IGraph pointer that is used to calculate the route from points on the graph
+       */ 
       SmartRoute(const IGraph* graph);
       virtual std::queue<Vector3D> GetRoute(
           std::vector<float> src, std::vector<float> dest) override;

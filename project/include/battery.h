@@ -20,7 +20,7 @@ namespace csci3081 {
   class Battery {
     public:
       /**
-       * @brief Constructor.
+       * @brief Constructor: instantiates a Battery object with a max_charge value 
        *  
        * @param max_charge An integer value that depletes through usage.
        *                   Default value of 10000.

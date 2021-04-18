@@ -35,7 +35,7 @@ namespace csci3081 {
   class CompositeFactory : public IEntityFactory {
     public:
       /**
-       * @brief defualt Constructor.
+       * @brief default Constructor: instanties a CompositeFactory object
        */ 
       CompositeFactory();
 
