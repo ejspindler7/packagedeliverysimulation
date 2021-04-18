@@ -26,9 +26,8 @@ namespace csci3081 {
 
     public:
       /**
-       * @brief Constructor.
+       * @brief Constructor: Creates the requested Package entity 
        *
-       * Creates the requested Package entity.
        *
        * @param details A picojson object containing requested package details.
        */

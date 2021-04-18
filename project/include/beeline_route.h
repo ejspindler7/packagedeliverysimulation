@@ -23,6 +23,12 @@ namespace csci3081 {
    */
   class BeelineRoute : public IRoute {
     public: 
+      /**
+       * @brief Constructor: instantiates a BeelineRoute object with a given height 
+       *  
+       * @param beeline_height An integer value to represent the height of the beeline
+       *                   Default value of 400.
+       */ 
       BeelineRoute(float beeline_height = 400);
       virtual std::queue<Vector3D> GetRoute(
          std::vector<float> src, std::vector<float> dest) override;

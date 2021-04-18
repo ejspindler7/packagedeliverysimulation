@@ -26,7 +26,7 @@ namespace csci3081 {
   class RobotFactory : public IEntityFactory {
     public:
       /**
-       * @brief Default Constructor.
+       * @brief Default Constructor: Instantiates a RobotFactory object
        */ 
       RobotFactory();
 

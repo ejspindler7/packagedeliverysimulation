@@ -25,8 +25,21 @@ namespace csci3081 {
    */
   class IRoute {
     public: 
+      /**
+       * @brief Returns the Route for the given IRoute instance 
+       *
+       * @param src Float value representing where the route begins 
+       * 
+       * @param dest Float value representing where the route ends 
+       * 
+       * @return a queue of Vector3D points that make up the route 
+       */ 
       virtual std::queue<Vector3D> GetRoute(std::vector<float> src,
                                             std::vector<float> dest) = 0;
+      /**
+       * @brief Destructor: deletes the IRoute pointer
+       *
+       */
       virtual ~IRoute() { }
   };
 } // namespace csci3081
