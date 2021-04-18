@@ -132,37 +132,36 @@ pattern, or even a simple factory method are likely better options than the
 composite factory pattern.
 
 
-In your Doxygen mainpage add a section named: 
-Team Documentation that includes summaries of team meetings
- (minimum of three) and who was assigned a task to complete.
 
 * \section Team Meetings
 *  All team members engaged in each and every meeting.
  
 Iteration 2 First Deliverable
 March 26, 2021
-Meeting one consisted of Reading the Iteration 2 requirements and having an understanding
-of the requirements for the first deliverable. This meeting also consisted of making the decision to use
-Anthony's code from Iteration 1. Anthony pushed his code to the shared repo for our team. Planned for next meeting on Monday.
+Meeting one consisted of reading the Iteration 2 requirements and having an understanding of the requirements for the first deliverable.
+This meeting also consisted of making the decision to use Anthony's code from Iteration 1 for Iteration 2. Anthony pushed his code to 
+the shared repo for our team. Planned for next meeting on Monday.
  
 Anthony was assigned Priority level 1 number 2. This consisted of created a robot class and restructuring the code then to have
-a courier class. The robot and drone class inherit from this courier class. Anthony already had the capability of multiple drones and
-packages being delivered from multiple Drone/Robots because he completed the extra credit from Iteration 1. This satisfies Priority level 2 number 1.
+a courier class. Anthony already had the capability of multiple drones and packages being delivered from multiple Drone/Robots 
+because he completed the extra credit from Iteration 1. This satisfies Priority level 2 number 1.
  
 Tia was assigned to fix the google tests from Iteration 1. This was Priority level 1 number 1.
  
 Imran was assigned writing google tests for the Observer pattern.
  
-Emma was assigned the Observer, priority level 2 number 2 and 3. Emma was responsible for getting the observer to report when the packages are scheduled, picked up, and dropped off.
-Emma was also responsible for getting the observer to report for Drone/Robot's entering idle state and entering moving state.
+Emma was assigned the Observer, priority level 2 number 2 and 3. Emma was responsible for getting the observer to report when the 
+packages are scheduled, picked up, and dropped off. Emma was also responsible for getting the observer to report for Drone/Robot's 
+entering idle state and entering moving state.
  
  
 March 29, 2021
-Meeting two consisted of updated each other on where we are at with our assigned work and to look over the grading rubric for this deliverable. Discussed if there needs to be
-any modifications on the distribution of work. As google tests for the observer are no longer a part of the first deliverable Imrans tasks need to be altered. Planned for next meeting on Tuesday after spring break.
+Meeting two consisted of updated each other on where we are at with our assigned work and to look over the grading rubric for this 
+deliverable. Discussed if there needs to be any modifications on the distribution of work. As google tests for the observer are no 
+longer a part of the first deliverable Imrans tasks need to be altered. Planned for next meeting on Tuesday after spring break.
  
-Imran was unassigned writing google tests for the observer and instead is now responsible for priority level 2 number 3. Imran is responsible for getting the observer to report
-for Drone/Robot's entering idle state and entering moving state.
+Imran was unassigned writing google tests for the observer and instead is now responsible for priority level 2 number 3. Imran is 
+responsible for getting the observer to reportfor Drone/Robot's entering idle state and entering moving state.
  
 Emma was unassigned priority level 2 number 3, the observer pattern for the Drone/Robot.
  
@@ -171,9 +170,11 @@ Tia was assigned google tests for the refactored code from Drone, Robot, courier
  
 Iteration 2 Final Deliverable
 April 13, 2021
-Meeting three consisted of understanding the requirements for this deliverable and distributing the work between the team. Planned for a follow up meeting to occur on Friday at 3 pm.
+Meeting three consisted of understanding the requirements for this deliverable and distributing the work between the team. Planned for 
+a follow up meeting to occur on Friday at 3 pm.
  
-Anthony was assigned priority level 3 which consists implementing a route strategy. Anthony is also responsible for documenting the design and implementation.
+Anthony was assigned priority level 3 which consists implementing a route strategy. Anthony is also responsible for documenting the design 
+and implementation.
  
 Tia was assigned the documentation of all new classes and methods are documented and updated the UML according to the changes made.
  
@@ -190,13 +191,12 @@ Emma was assigned the documentation for the Observer Pattern.
  
 * \section Observer Pattern Design
 The observer design was to create a function called NotifyObserver within delivery simulation that handles the actual notifying the observers and to call this function when a
-notification needs to be sent. This includes a helper function called ScheduledNotifications. ScheduledNotifications handles when a Drone/Robot is moving and when a package is
-scheduled. ScheduledNotifications creates a pico json object and adds the correct value. ScheduledNotifications will then call NotifyObserver on the Entity. NotifyObserver
-loops through all the observers and uses the OnEvent method to send the notification.
+notification needs to be sent. The NotifyObserver has a helper function called ScheduledNotifications. ScheduledNotifications handles when a Drone/Robot is moving and when a package is
+scheduled. ScheduledNotifications creates a pico json object and adds the correct value for the notification. ScheduledNotifications will then call NotifyObserver to send the notification 
+with the associated notification and entity. NotifyObserver loops through all the observers and uses the OnEvent method to send the notification.
  
-In ScheduleDelivery when a package is scheduled to be picked up to deliver the ScheduledNotifications is used to send the notification. In Update in delivery simulation,
-The Drone/Robot moving notification is used by calling the ScheduleNotifications. The package being picked up and delivered notifications directly call NotifyObserver
-after creating a pico json object and adding the according value. In Update in delivery simulation, the Drone/Robot en route, idle, and moving notifications directly
+In ScheduleDelivery when a package is scheduled to be picked up the ScheduledNotifications is used to send the notification. In Update in delivery simulation,
+The Drone/Robot moving notification is used by calling the ScheduleNotifications. In Update in delivery simulation, the Drone/Robot en route, idle, and moving notifications directly
 call NotifyObserver after creating a pico json object and adding the according value(s).
  
 To ensure the notification is only set out once rather than everytime update is called, the courier class uses the getNotification method. This method returns an integer that gets set to
