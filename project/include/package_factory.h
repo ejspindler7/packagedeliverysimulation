@@ -26,7 +26,7 @@ namespace csci3081 {
   class PackageFactory : public IEntityFactory {
     public:
       /**
-       * @brief Default Constructor.
+       * @brief Default Constructor: Instatiates a PackageFactory object
        */ 
       PackageFactory();
 

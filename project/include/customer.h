@@ -22,9 +22,8 @@ namespace csci3081 {
   class Customer : public csci3081::EntityBase {
     public:
       /**
-       * @brief Constructor.
+       * @brief Constructor: Creates the requested Customer entity
        *  
-       * Creates the requested Customer entity. 
        *
        * @param details A picojson object containing requested customer details. 
        */ 
