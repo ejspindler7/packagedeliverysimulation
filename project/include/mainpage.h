@@ -141,10 +141,10 @@ composite factory pattern.
 * \section design_ Observer Pattern Design
 The observer design includes the implementation of the observer pattern to report when a Package is scheduled, delivered, or enroute to all of the observers. The observer pattern design 
 includes the implementation to report when either entity the drone or the robot are moving or idle. The observer pattern design roots from the function called NotifyObserver within delivery
-simulation that handles the actual notifying of the observers and to call this function when a notification needs to be sent. The NotifyObserver has a helper function called 
-ScheduledNotifications. ScheduledNotifications handles when a Drone/Robot is moving and when a Package is scheduled. ScheduledNotifications creates a pico json object and adds the correct
-value for the notification. ScheduledNotifications will then call NotifyObserver to send the notification with the associated notification and entity. NotifyObserver loops through all the 
-observers and uses the OnEvent method to send the notification.
+simulation. NotifyObserver handles the actual notifying of the observers and to call this function when a notification needs to be sent. The NotifyObserver has a helper function called 
+ScheduledNotifications. ScheduledNotifications handles when a Drone/Robot is moving and when a Package is scheduled when a courier is available at the time of the the delivery schedule. 
+ScheduledNotifications creates a pico json object and adds the correct value for the notification. ScheduledNotifications will then call NotifyObserver to send the notification with the 
+associated notification and entity. NotifyObserver loops through all the observers and uses the OnEvent method to send the notification.
 
 Each notification that needs to be sent has conditions within the update function to check the status of the entities along with checks to ensure each notification is only sent once. Each notification
 has a pico json object with added values accroding to the notification. Then calls Notify observer on the pico json object and the entity, with the exception of the schedule and moving notifications 
@@ -152,7 +152,8 @@ go through the ScheduledNotifications. The conditions used to ensure the notific
 Within the courier class an integer variable is changed according to the status of the Drone/Robot. 
  
 In ScheduleDelivery when a package is scheduled to be picked up by a courier the ScheduledNotifications is used to send the notifications that the package is scheduled and the Drone/Robot is moving. 
-In Update in delivery simulation, the Drone/Robot idle, moving, pacakge is delivered, and package is enroute notifications are made when their condidtions are met. 
+In the case that a courier is not available, ScheduledNotifications is called within update when a courier is available to pick up the package. In Update in delivery simulation, the Drone/Robot idle, 
+moving, pacakge is delivered, and package is enroute notifications are made when their condidtions are met. 
 
 The observer design pattern also consisted of adding and removing observers with the functions AddObserver and RemoveObserver. These functions simply push and pop accordingly to the observers_ which is a list of IEntityObserver*.
 
