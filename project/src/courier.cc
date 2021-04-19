@@ -19,6 +19,7 @@ namespace csci3081 {
     graph_ = nullptr;
     beeline_height_ = 450;
     numNotify = 0;
+    battery_done = false;
   } // Courier(const picojson::object&)
 
   std::vector<float> Courier::GetDestination() const {
@@ -114,6 +115,18 @@ namespace csci3081 {
     return status_ == kReady;
   } // HasPackage()
 
+  bool Courier::GetBatteryDeadStatus(){
+    return battery_.IsDead();
+  } // Getter for the IsDead() method in the battery class
+
+  bool Courier::Is_DeadBattery_Notified(){
+    return battery_done;
+  } // a bool check for if the observer has gotten the idle notification yet
+
+  void Courier::DeadBattery_Notified(bool check){
+    battery_done = check;
+  } // Setter to the let program know idle notification has been shown
+
   void Courier::DropoffPackage() {
     // teleport package out of camera view
     package_->SetPosition(Vector3D(0, -10000, 0));
@@ -165,7 +178,7 @@ namespace csci3081 {
       } // switch
     } else { // move toward destination
       if (battery_.IsDead()) {
-        std::cerr << "Battery is dead" << std::endl;
+        //std::cerr << "Battery is dead" << std::endl;
       } else {
         this->Move(dt);
         battery_.Deplete(dt);

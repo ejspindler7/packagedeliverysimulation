@@ -159,6 +159,34 @@ namespace csci3081 {
       bool IsAvailable();
 
       /**
+       * @brief Checks the battery dead status by using the battery class
+       *        method IsDead(). This is needed since battery is protected
+       *        in courier and can't be directly access in delivery_simulation
+       *
+       * @return returns true if battery is dead. false
+       *         if not.
+       */
+      bool GetBatteryDeadStatus();
+
+      /**
+       * @brief A simple boolean check to see if the observer has been
+       *        notified that the courier has stopped moving
+       *        so that it doesn't repeat multiple times.
+       *
+       * @return returns true if observer has been notified once. false
+       *         if not.
+       */
+      bool Is_DeadBattery_Notified();
+
+      /**
+       * @brief Change the status after observer has been notified.
+       *
+       * @param A boolean value depending on if its been notified.
+       * @return void
+       */
+      void DeadBattery_Notified(bool check);
+
+      /**
        * @brief Remove package from visualization and make courier ready
        *        for a new package.
        *
@@ -236,6 +264,7 @@ namespace csci3081 {
       float beeline_height_;
       const IGraph* graph_;
       int numNotify;
+      bool battery_done;
   };
 } // namespace csci3081
 #endif // COURIER_H_
