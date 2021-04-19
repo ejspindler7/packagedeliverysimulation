@@ -131,12 +131,6 @@ applications where extensibility is not a major concern, the concrete factory
 pattern, or even a simple factory method are likely better options than the
 composite factory pattern.
 
-
-
-* \section Team Meetings
-*  All team members engaged in each and every meeting.
- 
-
  
 * \section design_ Observer Pattern Design
 The observer design includes the implementation of the observer pattern to report when a Package is scheduled, delivered, or enroute to all of the observers. The observer pattern design 

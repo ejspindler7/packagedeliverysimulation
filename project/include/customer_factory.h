@@ -26,7 +26,7 @@ namespace csci3081 {
   class CustomerFactory : public IEntityFactory {
     public:
       /**
-       * @brief Default Constructor.
+       * @brief Default Constructor: Instantiates a CustomerFactory object
        */ 
       CustomerFactory();
 

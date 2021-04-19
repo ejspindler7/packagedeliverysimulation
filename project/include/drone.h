@@ -25,9 +25,8 @@ namespace csci3081 {
 
     public:
       /**
-       * @brief Constructor.
+       * @brief Constructor: Creates the requested Drone entity
        *  
-       * Creates the requested Drone entity. 
        *
        * @param details A picojson object containing requested drone details. 
        */ 
