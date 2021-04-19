@@ -26,7 +26,7 @@ namespace csci3081 {
   class DroneFactory : public IEntityFactory {
     public:
       /**
-       * @brief Default Constructor.
+       * @brief Default Constructor: Instantiates a Drone Factory object 
        */ 
       DroneFactory();
 

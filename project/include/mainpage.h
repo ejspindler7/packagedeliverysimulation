@@ -155,5 +155,76 @@ In ScheduleDelivery when a package is scheduled to be picked up by a courier the
 In Update in delivery simulation, the Drone/Robot idle, moving, pacakge is delivered, and package is enroute notifications are made when their condidtions are met. 
 
 The observer design pattern also consisted of adding and removing observers with the functions AddObserver and RemoveObserver. These functions simply push and pop accordingly to the observers_ which is a list of IEntityObserver*.
+=======
+\section routes_ Designing and Implementing the routes
+
+To address the design requirement that drones be able to use any one of many
+different route types (eg. smart, beeline, or parabolic) when picking up
+and delivering packages, we decided to implement a strategy pattern. The
+strategy pattern allows for easy extensibility in the event that future
+iterations require that new route types be added to the delivery simulation.
+Additionally, the strategy pattern was particularly well suited to this
+application given that routes--regardless of strategy--are of the same form.
+Specifically, the courier movement logic expects that a route be in the form of a
+queue of three dimensional vectors where each vector points to some point in
+space relative to the base frame of the simulation. Given such a route, the
+courier will then travel to each point in FIFO order until the queue is empty.
+Thus, each strategy is expected to take two arguments--a source point and a
+destination point--and return a properly formatted queue of vectors. The
+following figure displays the specifics of our implementation:
+
+![Figure 4: strategy pattern for route generation.](../Strategy_Pattern_UML_small.png)
+
+Note that the Courier base class is oblivious to the implementation details of
+the concrete route strategies--meaning that it is closed to changes in those
+strategies. Each concrete strategy must override the pure abstract method
+`GetRoute` of the route strategy interface class `IRoute`. By default, all
+Couriers use the `SmartRoute` strategy as per the project requirements. If,
+however, a `path` key is found in the picojson object passed to the
+constructor of the Drone class, then `Courier::SetPathType` is called with the string
+value that is paired with the `path` key. As indicated in the figure above, this
+sets the Drone to use the desired route strategy when calls to `UpdateRoute` are
+made.
+
+Both the smart and beeline route strategies are very simple in their
+implementations. The smart route strategy makes use of the provided
+`Igraph*->GetPath` function which, itself, uses a shortest path algorithm (A*) to
+generate a vector of points leading from some source point to some destination
+point, avoiding obstacles along the way. Beyond calling
+`Igraph*->GetPath`, `SmartRoute::GetRoute` converts the returned path to the
+desired route format outlined above, before returning. The beeline route
+strategy, meanwhile, simply generates a queue of four points:
+the source point, the source point translated a fixed number of units straight
+up, the destination point translated a fixed number of units straight up, and
+finally the destination point.
+
+The parabolic route strategy, unlike the beeline and smart routes, involves a
+fair bit of complication in its implementation. The first two and last two
+points of the parabolic route are generated identically to the four points of
+the beeline route. In between these points, however, the parabolic route--as its
+name suggests--generates a sequence of points along a parabola which connects the
+second point in the route to the penultimate point. This is achieved by stepping
+a fixed distance forward, towards the destination, and translating
+the new point upwards to the intersection of the new point with the parabola
+that is being traced. The mathematical expressions for this translation can be
+found in the
+[Lab14_Strategy_Drone_Routes](https://github.umn.edu/umn-csci-3081-s21/shared-upstream/tree/support-code/labs/Lab14_Strategy_Drone_Routes)
+writup in the course's `shared-upstream` repository. This document, in fact, was
+the main source consulted in designing and implementating the
+strategy pattern and concrete strategies. Additional sources of information
+which assisted in understanding the strategy pattern include:
++ https://www.geeksforgeeks.org/strategy-pattern-set-1/
++ https://www.geeksforgeeks.org/strategy-pattern-set-2/
++ 3081S21LecutreNineteenStrategyPattern which can be accessed on Canvas.
+
+As a result of sound design principles in the first iteration of the delivery
+simulation, in addition to the extremely helpful Lab 14 writup mentioned above,
+there was very little challenge experienced in implementing the various routes
+and strategy pattern. Without Lab 14, however, the parabolic route would have
+been rather challenging to implement since the provided mathematical expressions 
+are not trivial to derive. As such, we strongly suggest consulting Lab 14 for
+anyone attempting a similar implemenation of parabolic routes. 
+
 
 */
+
