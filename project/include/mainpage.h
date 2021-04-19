@@ -27,7 +27,7 @@ This will start a server on port `8081` of the local host `127.0.0.1`. To view
 the simulation, open a browser window and navigate to http://127.0.0.1:8081/.
 Once the page has been loaded, the simulation will begin. To kill the
 simulation, either press the *Kill Simulation* button in the top right of the
-browser webpage, or interrupt the process from the terminal using `Ctrl+C`. 
+browser webpage, or interrupt the process from the terminal using `Ctrl+C`.
 
 Note -- If a `permission denied` error occurs when trying to run the simulation,
 issue the following command (assumes that the current working directory is still
@@ -51,7 +51,7 @@ the desired scene. All of the following commands execute as expected:
 > ./bin/run.sh scenes/multiple_deliveries.json
 ```
 
-### Factory Patterns 
+### Factory Patterns
 Three different factory patterns were considered as potential solutions for
 handling entity creation in this project: a concrete factory pattern, an
 abstract factory pattern, and a composite factory pattern. Ultimately, the
@@ -78,7 +78,7 @@ closed to changes in the entity system. Any time a new entity is added, or the
 entity creation logic of an existing entity is modified, so too must the
 concrete factory be modified. Furthermore, if there are a large number of
 entity types, the `CreateEntity` method of the concrete factory can quickly
-grow in length, becoming more and more difficult to maintain and update. 
+grow in length, becoming more and more difficult to maintain and update.
 
 Next, consider the abstract factory pattern:
 ![Figure 2: Abstract factory pattern for entity creation.](../Abstract_Factory_UML_small.png)
@@ -132,57 +132,57 @@ pattern, or even a simple factory method are likely better options than the
 composite factory pattern.
 
 
-* \section meeting Team Meetings
-*  All team members engaged in each and every meeting. 
+* \section meeting_ Team Meetings
+*  All team members engaged in each and every meeting.
 
 Iteration 2 First Deliverable:
 
 
 March 26, 2021:
     Meeting one consisted of reading the Iteration 2 requirements and having an understanding of the requirements for the first deliverable.
-This meeting also consisted of making the decision on whose code to use. The team collectively decided to use Anthony's code from 
-Iteration 1 for Iteration 2. Anthony pushed his code to the shared repo for our team. The work was distributed between team members. 
+This meeting also consisted of making the decision on whose code to use. The team collectively decided to use Anthony's code from
+Iteration 1 for Iteration 2. Anthony pushed his code to the shared repo for our team. The work was distributed between team members.
 Planned for next meeting on Monday.
- - Anthony was assigned Priority level 1 number 2. This consisted of created a robot class and restructuring the code then to have
-a courier class. Anthony already had the capability of multiple drones and packages being delivered from multiple Drone/Robots 
+ - Anthony was assigned Priority level 1 number 2. This consisted of creating a robot class and restructuring the
+a courier class. Anthony already had the capability of multiple drones and packages being delivered from multiple Drone/Robots
 because he completed the extra credit from Iteration 1. This satisfies Priority level 2 number 1.
  - Tia was assigned to fix the google tests from Iteration 1. This was Priority level 1 number 1.
  - Imran was assigned writing google tests for the Observer pattern.
- - Emma was assigned the Observer, priority level 2 number 2 and 3. Emma was responsible for getting the observer to report when the 
-packages are scheduled, picked up, and dropped off. Emma was also responsible for getting the observer to report for Drone/Robot's 
+ - Emma was assigned the Observer, priority level 2 number 2 and 3. Emma was responsible for getting the observer to report when the
+packages are scheduled, picked up, and dropped off. Emma was also responsible for getting the observer to report for Drone/Robot's
 entering idle state and entering moving state.
- 
- 
-March 29, 2021: Meeting two consisted of updated each other on where we are at with our assigned work and to look over the grading rubric for this 
-deliverable. Discussed if there needs to be any modifications on the distribution of work. As google tests for the observer are no 
+
+
+March 29, 2021: Meeting two consisted of updating each other on where we are at with our assigned work and to look over the grading rubric for this
+deliverable. Discussed if there needs to be any modifications on the distribution of work. As google tests for the observer are no
 longer a part of the first deliverable Imrans tasks need to be altered. Planned for next meeting on Tuesday after spring break.
- - Imran was unassigned writing google tests for the observer and instead is now responsible for priority level 2 number 3. Imran is 
+ - Imran was unassigned writing google tests for the observer and instead is now responsible for priority level 2 number 3. Imran is
 responsible for getting the observer to reportfor Drone/Robot's entering idle state and entering moving state.
  - Emma was unassigned priority level 2 number 3, the observer pattern for the Drone/Robot.
  - Tia was assigned google tests for the refactored code from Drone, Robot, courier, and corresponding factory classes.
- 
- 
+
+
 Iteration 2 Final Deliverable:
 
 
 April 13, 2021:
-Meeting three consisted of understanding the requirements for this deliverable and distributing the work between the team. Planned for 
+Meeting three consisted of understanding the requirements for this deliverable and distributing the work between the team. Planned for
 a follow up meeting to occur on Friday at 3 pm.
- - Anthony was assigned priority level 3 which consists implementing a route strategy. Anthony is also responsible for documenting the design 
+ - Anthony was assigned priority level 3 which consists implementing a route strategy. Anthony is also responsible for documenting the design
 and implementation.
  - Tia was assigned the documentation of all new classes and methods are documented and updated the UML according to the changes made.
  - Imran was assigned priority level 4 which consists of handling the case when the battery runs out and the need to reschedule the delivery.
  - Emma was assigned the documentation of the Team Meetings.
- 
- 
+
+
 April 16, 2021:
-Discussed the distribution of the tasks. Went over the grading rubric to ensure all tasks were accounted for. Discussed the rubric's and 
-assigned remaining tasks. Discussed if everyone felt they would be able to complete their tasks before the deadline. Planned next meeting 
+Discussed the distribution of the tasks. Went over the grading rubric to ensure all tasks were accounted for. Discussed the rubric's and
+assigned remaining tasks. Discussed if everyone felt they would be able to complete their tasks before the deadline. Planned next meeting
 for Monday at 4 pm.
  - Emma was assigned the documentation for the Observer Pattern.
  - Tia was assigned modifying google tests for the routes.
 
 April 19, 2021:
-Reviewed the accomplished work and submitted Iteration 2 Final Deliverable. 
+Reviewed the accomplished work and submitted Iteration 2 Final Deliverable.
 
 */
