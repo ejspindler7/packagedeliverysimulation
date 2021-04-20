@@ -27,7 +27,7 @@ This will start a server on port `8081` of the local host `127.0.0.1`. To view
 the simulation, open a browser window and navigate to http://127.0.0.1:8081/.
 Once the page has been loaded, the simulation will begin. To kill the
 simulation, either press the *Kill Simulation* button in the top right of the
-browser webpage, or interrupt the process from the terminal using `Ctrl+C`. 
+browser webpage, or interrupt the process from the terminal using `Ctrl+C`.
 
 Note -- If a `permission denied` error occurs when trying to run the simulation,
 issue the following command (assumes that the current working directory is still
@@ -51,7 +51,7 @@ the desired scene. All of the following commands execute as expected:
 > ./bin/run.sh scenes/multiple_deliveries.json
 ```
 
-### Factory Patterns 
+### Factory Patterns
 Three different factory patterns were considered as potential solutions for
 handling entity creation in this project: a concrete factory pattern, an
 abstract factory pattern, and a composite factory pattern. Ultimately, the
@@ -78,7 +78,7 @@ closed to changes in the entity system. Any time a new entity is added, or the
 entity creation logic of an existing entity is modified, so too must the
 concrete factory be modified. Furthermore, if there are a large number of
 entity types, the `CreateEntity` method of the concrete factory can quickly
-grow in length, becoming more and more difficult to maintain and update. 
+grow in length, becoming more and more difficult to maintain and update.
 
 Next, consider the abstract factory pattern:
 ![Figure 2: Abstract factory pattern for entity creation.](../Abstract_Factory_UML_small.png)
@@ -131,24 +131,25 @@ applications where extensibility is not a major concern, the concrete factory
 pattern, or even a simple factory method are likely better options than the
 composite factory pattern.
 
- 
+
 * \section design_ Observer Pattern Design
-The observer design includes the implementation of the observer pattern to report when a Package is scheduled, delivered, or enroute to all of the observers. The observer pattern design 
+The observer design includes the implementation of the observer pattern to report when a Package is scheduled, delivered, or enroute to all of the observers. The observer pattern design
 includes the implementation to report when either entity the drone or the robot are moving or idle. The observer pattern design roots from the function called NotifyObserver within delivery
-simulation. NotifyObserver handles the actual notifying of the observers and to call this function when a notification needs to be sent. The NotifyObserver has a helper function called 
-ScheduledNotifications. ScheduledNotifications handles when a Drone/Robot is moving and when a Package is scheduled when a courier is available at the time of the the delivery schedule. 
-ScheduledNotifications creates a pico json object and adds the correct value for the notification. ScheduledNotifications will then call NotifyObserver to send the notification with the 
+simulation. NotifyObserver handles the actual notifying of the observers and to call this function when a notification needs to be sent. The NotifyObserver has a helper function called
+ScheduledNotifications. ScheduledNotifications handles when a Drone/Robot is moving and when a Package is scheduled when a courier is available at the time of the the delivery schedule.
+ScheduledNotifications creates a pico json object and adds the correct value for the notification. ScheduledNotifications will then call NotifyObserver to send the notification with the
 associated notification and entity. NotifyObserver loops through all the observers and uses the OnEvent method to send the notification.
 
 Each notification that needs to be sent has conditions within the update function to check the status of the entities along with checks to ensure each notification is only sent once. Each notification
-has a pico json object with added values accroding to the notification. Then calls Notify observer on the pico json object and the entity, with the exception of the schedule and moving notifications 
-go through the ScheduledNotifications. The conditions used to ensure the notification is only sent once consists of the Courier getNotification() function and the Package IsDelivered function. 
-Within the courier class an integer variable is changed according to the status of the Drone/Robot. 
- 
-In ScheduleDelivery when a package is scheduled to be picked up by a courier the ScheduledNotifications is used to send the notifications that the package is scheduled and the Drone/Robot is moving. 
-In the case that a courier is not available, ScheduledNotifications is called within update when a courier is available to pick up the package. In Update in delivery simulation, the Drone/Robot idle, 
-moving, pacakge is delivered, and package is enroute notifications are made when their condidtions are met. 
+has a pico json object with added values accroding to the notification. Then calls Notify observer on the pico json object and the entity, with the exception of the schedule and moving notifications
+go through the ScheduledNotifications. The conditions used to ensure the notification is only sent once consists of the Courier getNotification() function and the Package IsDelivered function.
+Within the courier class an integer variable is changed according to the status of the Drone/Robot.
+
+In ScheduleDelivery when a package is scheduled to be picked up by a courier the ScheduledNotifications is used to send the notifications that the package is scheduled and the Drone/Robot is moving.
+In the case that a courier is not available, ScheduledNotifications is called within update when a courier is available to pick up the package. In Update in delivery simulation, the Drone/Robot idle,
+moving, pacakge is delivered, and package is enroute notifications are made when their condidtions are met.
 
 The observer design pattern also consisted of adding and removing observers with the functions AddObserver and RemoveObserver. These functions simply push and pop accordingly to the observers_ which is a list of IEntityObserver*.
 
+The observer pattern is within the delivery simulation therefore we do not have corresponding tests.
 */
