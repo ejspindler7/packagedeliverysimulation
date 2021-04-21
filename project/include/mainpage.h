@@ -27,7 +27,7 @@ This will start a server on port `8081` of the local host `127.0.0.1`. To view
 the simulation, open a browser window and navigate to http://127.0.0.1:8081/.
 Once the page has been loaded, the simulation will begin. To kill the
 simulation, either press the *Kill Simulation* button in the top right of the
-browser webpage, or interrupt the process from the terminal using `Ctrl+C`. 
+browser webpage, or interrupt the process from the terminal using `Ctrl+C`.
 
 Note -- If a `permission denied` error occurs when trying to run the simulation,
 issue the following command (assumes that the current working directory is still
@@ -51,7 +51,7 @@ the desired scene. All of the following commands execute as expected:
 > ./bin/run.sh scenes/multiple_deliveries.json
 ```
 
-### Factory Patterns 
+### Factory Patterns
 Three different factory patterns were considered as potential solutions for
 handling entity creation in this project: a concrete factory pattern, an
 abstract factory pattern, and a composite factory pattern. Ultimately, the
@@ -78,7 +78,7 @@ closed to changes in the entity system. Any time a new entity is added, or the
 entity creation logic of an existing entity is modified, so too must the
 concrete factory be modified. Furthermore, if there are a large number of
 entity types, the `CreateEntity` method of the concrete factory can quickly
-grow in length, becoming more and more difficult to maintain and update. 
+grow in length, becoming more and more difficult to maintain and update.
 
 Next, consider the abstract factory pattern:
 ![Figure 2: Abstract factory pattern for entity creation.](../Abstract_Factory_UML_small.png)
@@ -131,74 +131,25 @@ applications where extensibility is not a major concern, the concrete factory
 pattern, or even a simple factory method are likely better options than the
 composite factory pattern.
 
-\section routes_ Designing and Implementing the routes
 
-To address the design requirement that drones be able to use any one of many
-different route types (eg. smart, beeline, or parabolic) when picking up
-and delivering packages, we decided to implement a strategy pattern. The
-strategy pattern allows for easy extensibility in the event that future
-iterations require that new route types be added to the delivery simulation.
-Additionally, the strategy pattern was particularly well suited to this
-application given that routes--regardless of strategy--are of the same form.
-Specifically, the courier movement logic expects that a route be in the form of a
-queue of three dimensional vectors where each vector points to some point in
-space relative to the base frame of the simulation. Given such a route, the
-courier will then travel to each point in FIFO order until the queue is empty.
-Thus, each strategy is expected to take two arguments--a source point and a
-destination point--and return a properly formatted queue of vectors. The
-following figure displays the specifics of our implementation:
+* \section design_ Observer Pattern Design
+The observer design includes the implementation of the observer pattern to report when a Package is scheduled, delivered, or enroute to all of the observers. The observer pattern design
+includes the implementation to report when either entity the drone or the robot are moving or idle. The observer pattern design roots from the function called NotifyObserver within delivery
+simulation. NotifyObserver handles the actual notifying of the observers and to call this function when a notification needs to be sent. The NotifyObserver has a helper function called
+ScheduledNotifications. ScheduledNotifications handles when a Drone/Robot is moving and when a Package is scheduled when a courier is available at the time of the the delivery schedule.
+ScheduledNotifications creates a pico json object and adds the correct value for the notification. ScheduledNotifications will then call NotifyObserver to send the notification with the
+associated notification and entity. NotifyObserver loops through all the observers and uses the OnEvent method to send the notification.
 
-![Figure 4: strategy pattern for route generation.](../Strategy_Pattern_UML_small.png)
+Each notification that needs to be sent has conditions within the update function to check the status of the entities along with checks to ensure each notification is only sent once. Each notification
+has a pico json object with added values accroding to the notification. Then calls Notify observer on the pico json object and the entity, with the exception of the schedule and moving notifications
+go through the ScheduledNotifications. The conditions used to ensure the notification is only sent once consists of the Courier getNotification() function and the Package IsDelivered function.
+Within the courier class an integer variable is changed according to the status of the Drone/Robot.
 
-Note that the Courier base class is oblivious to the implementation details of
-the concrete route strategies--meaning that it is closed to changes in those
-strategies. Each concrete strategy must override the pure abstract method
-`GetRoute` of the route strategy interface class `IRoute`. By default, all
-Couriers use the `SmartRoute` strategy as per the project requirements. If,
-however, a `path` key is found in the picojson object passed to the
-constructor of the Drone class, then `Courier::SetPathType` is called with the string
-value that is paired with the `path` key. As indicated in the figure above, this
-sets the Drone to use the desired route strategy when calls to `UpdateRoute` are
-made.
+In ScheduleDelivery when a package is scheduled to be picked up by a courier the ScheduledNotifications is used to send the notifications that the package is scheduled and the Drone/Robot is moving.
+In the case that a courier is not available, ScheduledNotifications is called within update when a courier is available to pick up the package. In Update in delivery simulation, the Drone/Robot idle,
+moving, pacakge is delivered, and package is enroute notifications are made when their condidtions are met.
 
-Both the smart and beeline route strategies are very simple in their
-implementations. The smart route strategy makes use of the provided
-`Igraph*->GetPath` function which, itself, uses a shortest path algorithm (A*) to
-generate a vector of points leading from some source point to some destination
-point, avoiding obstacles along the way. Beyond calling
-`Igraph*->GetPath`, `SmartRoute::GetRoute` converts the returned path to the
-desired route format outlined above, before returning. The beeline route
-strategy, meanwhile, simply generates a queue of four points:
-the source point, the source point translated a fixed number of units straight
-up, the destination point translated a fixed number of units straight up, and
-finally the destination point.
+The observer design pattern also consisted of adding and removing observers with the functions AddObserver and RemoveObserver. These functions simply push and pop accordingly to the observers_ which is a list of IEntityObserver*.
 
-The parabolic route strategy, unlike the beeline and smart routes, involves a
-fair bit of complication in its implementation. The first two and last two
-points of the parabolic route are generated identically to the four points of
-the beeline route. In between these points, however, the parabolic route--as its
-name suggests--generates a sequence of points along a parabola which connects the
-second point in the route to the penultimate point. This is achieved by stepping
-a fixed distance forward, towards the destination, and translating
-the new point upwards to the intersection of the new point with the parabola
-that is being traced. The mathematical expressions for this translation can be
-found in the
-[Lab14_Strategy_Drone_Routes](https://github.umn.edu/umn-csci-3081-s21/shared-upstream/tree/support-code/labs/Lab14_Strategy_Drone_Routes)
-writup in the course's `shared-upstream` repository. This document, in fact, was
-the main source consulted in designing and implementating the
-strategy pattern and concrete strategies. Additional sources of information
-which assisted in understanding the strategy pattern include:
-+ https://www.geeksforgeeks.org/strategy-pattern-set-1/
-+ https://www.geeksforgeeks.org/strategy-pattern-set-2/
-+ 3081S21LecutreNineteenStrategyPattern which can be accessed on Canvas.
-
-As a result of sound design principles in the first iteration of the delivery
-simulation, in addition to the extremely helpful Lab 14 writup mentioned above,
-there was very little challenge experienced in implementing the various routes
-and strategy pattern. Without Lab 14, however, the parabolic route would have
-been rather challenging to implement since the provided mathematical expressions 
-are not trivial to derive. As such, we strongly suggest consulting Lab 14 for
-anyone attempting a similar implemenation of parabolic routes. 
-
+The observer pattern is within the delivery simulation therefore we do not have corresponding tests.
 */
-
