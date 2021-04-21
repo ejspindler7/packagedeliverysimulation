@@ -25,9 +25,8 @@ namespace csci3081 {
 
     public:
       /**
-       * @brief Constructor.
+       * @brief Constructor: Creates the requested Robot entity 
        *  
-       * Creates the requested Robot entity. 
        *
        * @param details A picojson object containing requested robot details. 
        */ 

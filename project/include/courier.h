@@ -11,6 +11,7 @@
 #include "entity_base.h"
 #include "package.h"
 #include "battery.h"
+#include "route.h"
 #include <queue>
 #include <string>
 #include  "delivery_simulation.h"
@@ -31,13 +32,19 @@ namespace csci3081 {
     public:
 
       /**
-       * @brief Constructor.
+       * @brief Constructor: Creates the requested Courier entity
        *
-       * Creates the requested Courier entity.
        *
        * @param details A picojson object containing requested courier details.
        */
       Courier(const picojson::object& details);
+
+      /**
+       * @brief Destructor.
+       *
+       * deletes the route_strategy pointer
+       */
+      ~Courier();
 
       /**
        * @brief Get the courier's current destination.
@@ -100,11 +107,22 @@ namespace csci3081 {
       Package* GetPackage() const;
 
       /**
+       * @brief Update the courier's route.
+       * 
+       * Uses the current Route strategy to generate a route from
+       * the courier's current position to the courier's current
+       * destination.
+       * 
+       */
+      void UpdateRoute();
+
+      /**
        * @brief Get the courier's route.
        *
        * @return route
        */
       std::vector<std::vector<float>> GetRoute() const;
+
 
       /**
        * @brief Assign the courier to pickup and deliver a Package.
@@ -132,10 +150,9 @@ namespace csci3081 {
        * @brief Set a pointer to an IGraph object.
        *
        * IGraph* is used in calls to IGraph::GetPath(vector<float>,
-       * vector<float>). This should be set when a package is set to
-       * be delivered by the courier if Courier::UsingSmartRoute() is true.
+       * vector<float>) by the smart route strategy. 
        *
-       * @param package A IGraph*.
+       * @param graph A IGraph*.
        * @return void
        */
       void SetGraph(const IGraph* graph);
@@ -157,6 +174,34 @@ namespace csci3081 {
        *         otherwise.
        */
       bool IsAvailable();
+
+      /**
+       * @brief Checks the battery dead status by using the battery class
+       *        method IsDead(). This is needed since battery is protected
+       *        in courier and can't be directly access in delivery_simulation
+       *
+       * @return returns true if battery is dead. false
+       *         if not.
+       */
+      bool GetBatteryDeadStatus();
+
+      /**
+       * @brief A simple boolean check to see if the observer has been
+       *        notified that the courier has stopped moving
+       *        so that it doesn't repeat multiple times.
+       *
+       * @return returns true if observer has been notified once. false
+       *         if not.
+       */
+      bool Is_DeadBattery_Notified();
+
+      /**
+       * @brief Change the status after observer has been notified.
+       *
+       * @param A boolean value depending on if its been notified.
+       * @return void
+       */
+      void DeadBattery_Notified(bool check);
 
       /**
        * @brief Remove package from visualization and make courier ready
@@ -222,20 +267,15 @@ namespace csci3081 {
         kDeliverPackage
       };
       Status status_;
-      enum Path {
-        kSmart,
-        kBeeline,
-        kParabolic
-      };
-      Path path_type_;
+      IRoute* route_strategy_;
       float speed_;
       Vector3D destination_;
       Battery battery_;
       Package* package_;
       std::queue<Vector3D> route_;
-      float beeline_height_;
       const IGraph* graph_;
       int numNotify;
+      bool battery_done;
   };
 } // namespace csci3081
 #endif // COURIER_H_

@@ -131,4 +131,147 @@ applications where extensibility is not a major concern, the concrete factory
 pattern, or even a simple factory method are likely better options than the
 composite factory pattern.
 
+
+* \section meeting_ Team Meetings
+*  All team members engaged in each and every meeting.
+
+Iteration 2 First Deliverable:
+
+
+March 26, 2021:
+    Meeting one consisted of reading the Iteration 2 requirements and having an understanding of the requirements for the first deliverable.
+This meeting also consisted of making the decision on whose code to use. The team collectively decided to use Anthony's code from
+Iteration 1 for Iteration 2. Anthony pushed his code to the shared repo for our team. The work was distributed between team members.
+Planned for next meeting on Monday.
+ - Anthony was assigned Priority level 1 number 2. This consisted of creating a robot class and restructuring the
+a courier class. Anthony already had the capability of multiple drones and packages being delivered from multiple Drone/Robots
+because he completed the extra credit from Iteration 1. This satisfies Priority level 2 number 1.
+ - Tia was assigned to fix the google tests from Iteration 1. This was Priority level 1 number 1.
+ - Imran was assigned writing google tests for the Observer pattern.
+ - Emma was assigned the Observer, priority level 2 number 2 and 3. Emma was responsible for getting the observer to report when the
+packages are scheduled, picked up, and dropped off. Emma was also responsible for getting the observer to report for Drone/Robot's
+entering idle state and entering moving state.
+
+
+March 29, 2021: Meeting two consisted of updating each other on where we are at with our assigned work and to look over the grading rubric for this
+deliverable. Discussed if there needs to be any modifications on the distribution of work. As google tests for the observer are no
+longer a part of the first deliverable Imrans tasks need to be altered. Planned for next meeting on Tuesday after spring break.
+ - Imran was unassigned writing google tests for the observer and instead is now responsible for priority level 2 number 3. Imran is
+responsible for getting the observer to reportfor Drone/Robot's entering idle state and entering moving state.
+ - Emma was unassigned priority level 2 number 3, the observer pattern for the Drone/Robot.
+ - Tia was assigned google tests for the refactored code from Drone, Robot, courier, and corresponding factory classes.
+
+
+Iteration 2 Final Deliverable:
+
+
+April 13, 2021:
+Meeting three consisted of understanding the requirements for this deliverable and distributing the work between the team. Planned for
+a follow up meeting to occur on Friday at 3 pm.
+ - Anthony was assigned priority level 3 which consists implementing a route strategy. Anthony is also responsible for documenting the design
+and implementation.
+ - Tia was assigned the documentation of all new classes and methods are documented and updated the UML according to the changes made.
+ - Imran was assigned priority level 4 which consists of handling the case when the battery runs out and the need to reschedule the delivery.
+ - Emma was assigned the documentation of the Team Meetings.
+
+
+April 16, 2021:
+Discussed the distribution of the tasks. Went over the grading rubric to ensure all tasks were accounted for. Discussed the rubric's and
+assigned remaining tasks. Discussed if everyone felt they would be able to complete their tasks before the deadline. Planned next meeting
+for Monday at 4 pm.
+ - Emma was assigned the documentation for the Observer Pattern.
+ - Tia was assigned modifying google tests for the routes.
+
+April 19, 2021:
+Reviewed the accomplished work and submitted Iteration 2 Final Deliverable.
+
+\section routes_ Designing and Implementing the routes
+
+To address the design requirement that drones be able to use any one of many
+different route types (eg. smart, beeline, or parabolic) when picking up
+and delivering packages, we decided to implement a strategy pattern. The
+strategy pattern allows for easy extensibility in the event that future
+iterations require that new route types be added to the delivery simulation.
+Additionally, the strategy pattern was particularly well suited to this
+application given that routes--regardless of strategy--are of the same form.
+Specifically, the courier movement logic expects that a route be in the form of a
+queue of three dimensional vectors where each vector points to some point in
+space relative to the base frame of the simulation. Given such a route, the
+courier will then travel to each point in FIFO order until the queue is empty.
+Thus, each strategy is expected to take two arguments--a source point and a
+destination point--and return a properly formatted queue of vectors. The
+following figure displays the specifics of our implementation:
+
+![Figure 4: strategy pattern for route generation.](../Strategy_Pattern_UML_small.png)
+
+Note that the Courier base class is oblivious to the implementation details of
+the concrete route strategies--meaning that it is closed to changes in those
+strategies. Each concrete strategy must override the pure abstract method
+`GetRoute` of the route strategy interface class `IRoute`. By default, all
+Couriers use the `SmartRoute` strategy as per the project requirements. If,
+however, a `path` key is found in the picojson object passed to the
+constructor of the Drone class, then `Courier::SetPathType` is called with the string
+value that is paired with the `path` key. As indicated in the figure above, this
+sets the Drone to use the desired route strategy when calls to `UpdateRoute` are
+made.
+
+Both the smart and beeline route strategies are very simple in their
+implementations. The smart route strategy makes use of the provided
+`Igraph*->GetPath` function which, itself, uses a shortest path algorithm (A*) to
+generate a vector of points leading from some source point to some destination
+point, avoiding obstacles along the way. Beyond calling
+`Igraph*->GetPath`, `SmartRoute::GetRoute` converts the returned path to the
+desired route format outlined above, before returning. The beeline route
+strategy, meanwhile, simply generates a queue of four points:
+the source point, the source point translated a fixed number of units straight
+up, the destination point translated a fixed number of units straight up, and
+finally the destination point.
+
+The parabolic route strategy, unlike the beeline and smart routes, involves a
+fair bit of complication in its implementation. The first two and last two
+points of the parabolic route are generated identically to the four points of
+the beeline route. In between these points, however, the parabolic route--as its
+name suggests--generates a sequence of points along a parabola which connects the
+second point in the route to the penultimate point. This is achieved by stepping
+a fixed distance forward, towards the destination, and translating
+the new point upwards to the intersection of the new point with the parabola
+that is being traced. The mathematical expressions for this translation can be
+found in the
+[Lab14_Strategy_Drone_Routes](https://github.umn.edu/umn-csci-3081-s21/shared-upstream/tree/support-code/labs/Lab14_Strategy_Drone_Routes)
+writup in the course's `shared-upstream` repository. This document, in fact, was
+the main source consulted in designing and implementating the
+strategy pattern and concrete strategies. Additional sources of information
+which assisted in understanding the strategy pattern include:
++ https://www.geeksforgeeks.org/strategy-pattern-set-1/
++ https://www.geeksforgeeks.org/strategy-pattern-set-2/
++ 3081S21LecutreNineteenStrategyPattern which can be accessed on Canvas.
+
+As a result of sound design principles in the first iteration of the delivery
+simulation, in addition to the extremely helpful Lab 14 writup mentioned above,
+there was very little challenge experienced in implementing the various routes
+and strategy pattern. Without Lab 14, however, the parabolic route would have
+been rather challenging to implement since the provided mathematical expressions 
+are not trivial to derive. As such, we strongly suggest consulting Lab 14 for
+anyone attempting a similar implemenation of parabolic routes. 
+
+\section design_ Observer Pattern Design
+The observer design includes the implementation of the observer pattern to report when a Package is scheduled, delivered, or enroute to all of the observers. The observer pattern design
+includes the implementation to report when either entity the drone or the robot are moving or idle. The observer pattern design roots from the function called NotifyObserver within delivery
+simulation. NotifyObserver handles the actual notifying of the observers and to call this function when a notification needs to be sent. The NotifyObserver has a helper function called
+ScheduledNotifications. ScheduledNotifications handles when a Drone/Robot is moving and when a Package is scheduled when a courier is available at the time of the the delivery schedule.
+ScheduledNotifications creates a pico json object and adds the correct value for the notification. ScheduledNotifications will then call NotifyObserver to send the notification with the
+associated notification and entity. NotifyObserver loops through all the observers and uses the OnEvent method to send the notification.
+
+Each notification that needs to be sent has conditions within the update function to check the status of the entities along with checks to ensure each notification is only sent once. Each notification
+has a pico json object with added values accroding to the notification. Then calls Notify observer on the pico json object and the entity, with the exception of the schedule and moving notifications
+go through the ScheduledNotifications. The conditions used to ensure the notification is only sent once consists of the Courier getNotification() function and the Package IsDelivered function.
+Within the courier class an integer variable is changed according to the status of the Drone/Robot.
+
+In ScheduleDelivery when a package is scheduled to be picked up by a courier the ScheduledNotifications is used to send the notifications that the package is scheduled and the Drone/Robot is moving.
+In the case that a courier is not available, ScheduledNotifications is called within update when a courier is available to pick up the package. In Update in delivery simulation, the Drone/Robot idle,
+moving, pacakge is delivered, and package is enroute notifications are made when their condidtions are met.
+
+The observer design pattern also consisted of adding and removing observers with the functions AddObserver and RemoveObserver. These functions simply push and pop accordingly to the observers_ which is a list of IEntityObserver*.
+
+The observer pattern is within the delivery simulation therefore we do not have corresponding tests.
 */

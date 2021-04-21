@@ -134,6 +134,20 @@ namespace csci3081 {
             NotifyObserver(notify_moving, courier);
             courier->setNotification(2);
         }
+        if(courier->GetBatteryDeadStatus()){ // Case where Courier's battery dies
+          if(!courier->Is_DeadBattery_Notified()){
+          picojson::object notificationsDead = JsonHelper::CreateJsonNotification();
+          JsonHelper::AddStringToJsonObject(notificationsDead,"value", "idle");
+          NotifyObserver(notificationsDead, courier);
+          if(courier->HasPackage()){
+            package_queue_.push(courier->GetPackage()); // Add package back to the queue to be scheduled again
+          }
+          else{
+            package_queue_.push(courier->GetPackage());
+          }
+          courier->DeadBattery_Notified(true);
+          }
+        }
         else if ((courier->GetStatus() == 0) && (courier->getNotification() == 2)){
             // Notify courier is idle
             picojson::object notifications2 = JsonHelper::CreateJsonNotification();
