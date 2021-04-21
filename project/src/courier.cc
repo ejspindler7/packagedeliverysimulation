@@ -177,12 +177,10 @@ namespace csci3081 {
           break;
       } // switch
     } else { // move toward destination
-      if (battery_.IsDead()) {
-        //std::cerr << "Battery is dead" << std::endl;
-      } else {
+      if (!battery_.IsDead()) {
         this->Move(dt);
         battery_.Deplete(dt);
-      } // else battery
+      } // if battery
     } // else
   } // Update(float)
 
